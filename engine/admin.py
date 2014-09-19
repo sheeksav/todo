@@ -1,3 +1,5 @@
 from django.contrib import admin
+from engine.models import ToDoList, ToDoItem
 
-# Register your models here.
+admin.site.register(ToDoList)
+admin.site.register(ToDoItem)
