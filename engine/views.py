@@ -11,7 +11,7 @@ class ToDoListDisplayView(TemplateView):
     def get_context_data(self, **kwargs):
 
         try:
-            tasks = ToDoItem.objects.all()
+            tasks = ToDoItem.objects.filter(complete=False)
         except ToDoItem.DoesNotExit:
             tasks = None
 
