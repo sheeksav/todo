@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView, FormView, View
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .models import ToDoList, ToDoItem
 
@@ -18,4 +18,23 @@ class ToDoListDisplayView(TemplateView):
         return {
             'tasks': tasks,
         }
+
+
+def CompleteTaskView(request, pk):
+
+    task = ToDoItem.objects.get(id=pk)
+    task.complete = True
+    task.save()
+
+    return redirect('home')
+
+
+
+
+
+
+
+
+
+
 

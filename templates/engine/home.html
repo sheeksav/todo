@@ -35,10 +35,11 @@
               {% for task in tasks %}
                 <li class="list-group-item clearfix">
                     <span class="pull-left"><h5>{{ task }}</h5></span>
-                    <span class="pull-right"><button type="button" class="btn btn-primary">Complete</button></span>
+                    <span class="pull-right"><a href="{% url 'complete-task' task.id  %}" class="btn btn-primary">Complete</a></span>
                 </li>
               {% endfor %}
           </ul>
+
 
 
       </div>
