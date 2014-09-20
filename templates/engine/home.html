@@ -30,6 +30,17 @@
       <div class="starter-template">
         <h1>Welp, here it is.</h1>
         <p class="lead">Pretty much the greatest to-do app that has been done.</p>
+
+          <ul class="list-group">
+              {% for task in tasks %}
+                <li class="list-group-item clearfix">
+                    <span class="pull-left"><h5>{{ task }}</h5></span>
+                    <span class="pull-right"><button type="button" class="btn btn-primary">Complete</button></span>
+                </li>
+              {% endfor %}
+          </ul>
+
+
       </div>
 
     </div><!-- /.container -->

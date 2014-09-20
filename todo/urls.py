@@ -2,6 +2,8 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.views.generic import TemplateView
 
+from engine.views import ToDoListDisplayView
+
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'todo.views.home', name='home'),
@@ -9,5 +11,5 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^$', TemplateView.as_view(template_name='engine/home.html'), name='home')
+    url(r'^$', ToDoListDisplayView.as_view(), name='home'),
 )
