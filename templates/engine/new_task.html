@@ -1,0 +1,27 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+
+    <div class="container content-container">
+
+        <h1>Add a To-Do Item</h1>
+
+        <form role="form" method="post" action="">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <!--<input type="text" class="form-control" id="description" placeholder="Enter description here">-->
+                {{ form.description }}
+            </div>
+
+            <button type="submit" class="btn btn-default">Submit</button>
+
+        </form>
+
+    </div>
+
+
+{% endblock %}

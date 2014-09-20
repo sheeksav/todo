@@ -2,7 +2,11 @@ body {
     padding-top: 50px;
 }
 
-.starter-template {
+label {
+    float: left !important;
+}
+
+.content-container {
     padding: 40px 15px;
     text-align: center;
 }
