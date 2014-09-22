@@ -1,12 +1,43 @@
 body {
-    padding-top: 50px;
+    /*padding-top: 50px;*/
 }
 
 label {
-    float: left !important;
+    /*float: left !important;*/
+    display: block;
+    text-align: left;
+    padding: 0;
+    margin: 0;
 }
 
 .content-container {
-    padding: 40px 15px;
+    padding: 90px 15px;
+}
+
+.container {
     text-align: center;
+}
+
+.task {
+    line-height: 34px;
+}
+
+
+ul.errorlist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    color: red;
+    text-align: left;
+    font-size: 14px;
+}
+
+ul.errorlist li {
+    margin: 0 0 3px 0;
+    padding: 0;
+}
+
+
+.form-group input {
+    margin-bottom: 10px;
 }

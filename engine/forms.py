@@ -9,7 +9,7 @@ class AddTaskForm(forms.Form):
             'class':'form-control',
         }
     ))
-    description = forms.CharField(required=True, widget=forms.Textarea(
+    description = forms.CharField(required=False, widget=forms.Textarea(
         attrs={
             'type':'text',
             'placeholder':'Enter description here...',
