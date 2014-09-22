@@ -12,9 +12,15 @@
             {% csrf_token %}
 
             <div class="form-group">
+
+                <label for="title">Title</label>
+                {{ form.title }}
+
                 <label for="description">Description</label>
-                <!--<input type="text" class="form-control" id="description" placeholder="Enter description here">-->
                 {{ form.description }}
+
+
+
             </div>
 
             <button type="submit" class="btn btn-default">Submit</button>

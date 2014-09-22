@@ -10,12 +10,13 @@ class ToDoList(models.Model):
 
 class ToDoItem(models.Model):
     list = models.ForeignKey(ToDoList)
-    description = models.CharField(max_length=300)
+    title = models.CharField(blank=False, max_length=100)
+    description = models.TextField()
     complete = models.BooleanField(default=False)
     updated = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.description
+        return self.title
 
 
 

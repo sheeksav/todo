@@ -30,6 +30,7 @@ class AddTaskFormView(FormView):
 
         task = ToDoItem.objects.create(
             list = ToDoList.objects.get(owner=self.request.user),
+            title = form.cleaned_data.get('title'),
             description = form.cleaned_data.get('description'),
         )
 
