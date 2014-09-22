@@ -29,7 +29,8 @@ class AddTaskFormView(FormView):
     def form_valid(self, form):
 
         task = ToDoItem.objects.create(
-            list = ToDoList.objects.get(owner=self.request.user),
+            #list = ToDoList.objects.get(owner=self.request.user),
+            list = ToDoList.objects.get(id=1),
             title = form.cleaned_data.get('title'),
             description = form.cleaned_data.get('description'),
         )
