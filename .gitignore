@@ -1,4 +1,6 @@
 *.pyc
-env/
+venv
 local_settings.py
 .idea/
+staticfiles
+
