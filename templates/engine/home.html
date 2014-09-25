@@ -32,16 +32,23 @@
 
           <ul class="list-group">
               {% for task in tasks %}
+
                 <li class="list-group-item task clearfix">
                     <span class="pull-left">{{ task }}</span>
-                    <span class="pull-right"><a href="{% url 'complete-task' task.id  %}" class="btn btn-primary btn-sm">Complete</a></span>
+                    <a href class="btn btn-primary btn-sm complete-btn pull-right" data-task-id="{{ task.id }}">Done!</a>
                 </li>
               {% endfor %}
           </ul>
 
 
-          <a href="{% url 'add-task' %}" class="btn btn-block btn-lg btn-primary">Create a new task</a>
+        <a href="{% url 'add-task' %}" class="btn btn-block btn-lg btn-primary">Create a new task</a>
 
+        <!--
+        <label class="checkbox" for="checkbox1">
+            <input type="checkbox" value="" id="checkbox1" data-toggle="checkbox">
+            Checkbox
+        </label>
+        -->
 
 
 
@@ -49,5 +56,42 @@
       </div>
 
     </div><!-- /.container -->
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+    <script>
+
+        $('.complete-btn').click(function() {
+            event.preventDefault();
+
+            var pk = $(this).data('task-id');
+            var url = '/complete-task/' + pk + '/';
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                async: true,
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    pk: pk,
+                },
+                success: function(json) {
+                     //alert('It worked!');
+                    //
+                }
+            });
+
+            // Made the li fade away
+            $(this).parent().fadeOut();
+
+        });
+
+
+        $(':checkbox').checkbox();
+    </script>
 
 {% endblock %}

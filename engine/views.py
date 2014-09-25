@@ -1,5 +1,7 @@
 from django.views.generic import TemplateView, FormView, View
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.template import RequestContext
 
 from .models import ToDoList, ToDoItem
 from .forms import AddTaskForm
@@ -38,13 +40,23 @@ class AddTaskFormView(FormView):
         return super(AddTaskFormView, self).form_valid(form)
 
 
-def CompleteTaskView(request, pk):
+class CompleteTaskAPIView(View):
+    http_method_names = ['post', ]
 
-    task = ToDoItem.objects.get(id=pk)
-    task.complete = True
-    task.save()
+    def post(self, request, *args, **kwargs):
 
-    return redirect('home')
+        task_id = request.POST.get('pk')
+
+        task = ToDoItem.objects.get(id=task_id)
+        task.complete = True
+        task.save()
+
+        response = {
+            'success': True,
+        }
+
+        return HttpResponse(response, content_type='application/json')
+
 
 
 
