@@ -16,7 +16,7 @@ from .forms import AddTaskForm, LoginForm, SignUpForm
 class SignUpView(FormView):
     form_class = SignUpForm
     template_name = 'signup.html'
-    success_url = '/'
+    success_url = '/tasks/'
 
     def form_valid(self, form):
 
@@ -90,6 +90,12 @@ class HomeView(TemplateView):
 class ToDoListDisplayView(TemplateView):
     template_name = 'engine/tasks.html'
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+
+        return super(ToDoListDisplayView, self).dispatch(request, *args, **kwargs)
+
+
     def get_context_data(self, **kwargs):
 
         try:
@@ -108,11 +114,15 @@ class AddTaskFormView(FormView):
     template_name = 'engine/new_task.html'
     success_url = '/tasks/'
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+
+        return super(AddTaskFormView, self).dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
 
         task = ToDoItem.objects.create(
             list = ToDoList.objects.get(owner=self.request.user),
-            #list = ToDoList.objects.get(id=1),
             title = form.cleaned_data.get('title'),
             description = form.cleaned_data.get('description'),
         )
