@@ -36,6 +36,7 @@ class ToDoItem(models.Model):
     title = models.CharField(blank=False, max_length=100)
     description = models.TextField()
     complete = models.BooleanField(default=False)
+    from_admin = models.BooleanField(default=False)
     updated = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
