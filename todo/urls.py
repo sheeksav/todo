@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.views.generic import TemplateView
 
-from engine.views import ToDoListDisplayView, CompleteTaskAPIView, AddTaskFormView
+from engine.views import HomeView, LoginView, SignUpView, LogoutView, ToDoListDisplayView, CompleteTaskAPIView, AddTaskFormView
 
 urlpatterns = patterns('',
     # Examples:
@@ -11,8 +11,13 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^$', ToDoListDisplayView.as_view(), name='home'),
+    url(r'^$', HomeView.as_view(), name='home'),
+    url(r'^tasks/$', ToDoListDisplayView.as_view(), name='tasks'),
     url(r'^new-task$', AddTaskFormView.as_view(), name='add-task'),
     url(r'^complete-task/(?P<pk>\d+)/$', CompleteTaskAPIView.as_view(), name='complete-task-api'),
+
+    url(r'^signup', SignUpView.as_view(), name='signup'),
+    url(r'^login$', LoginView.as_view(), name='login'),
+    url(r'^logout$', LogoutView.as_view(), name='logout'),
 
 )

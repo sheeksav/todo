@@ -1,0 +1,48 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+
+
+    <div class="container">
+
+        <div class="content-container">
+
+            <div class="row">
+
+                <div class="col-xs-12 col-md-6 col-centered">
+
+                    <h2>Sign In</h2>
+
+                    <form method="post" action="{% url 'login' %}" role="form">
+
+                            {% csrf_token %}
+
+                            <div class="form-group grouped-inputs">
+
+                                {{ form.errors.email }}
+                                {{ form.email }}
+
+                                {{ form.erros.password }}
+                                {{ form.password }}
+
+                            </div>
+
+                            <button type="submit" class="btn btn-block btn-lg btn-primary">Log in</button>
+
+                        </form>
+
+                        <p>Don't have an account?<br />
+                            <a href="{% url 'signup' %}{% if next %}?next={{ next }}{% endif %}">Sign up free.</a>
+                        </p>
+
+                </div> <!--/col-->
+
+            </div> <!--/row-->
+
+        </div> <!--/content-container-->
+
+    </div> <!--/container-->
+
+
+{% endblock %}

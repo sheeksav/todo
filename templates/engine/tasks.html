@@ -8,15 +8,21 @@
     <div class="container">
 
       <div class="content-container">
-        <h2>Welp, here it is.</h2>
-        <p class="lead">Pretty much the greatest to-do app that has been done.</p>
 
-        {% if not user.is_authenticated %}
-            <a href="{% url 'login' %}" class="btn btn-block btn-lg btn-primary">Login</a>
-            <a href="{% url 'signup' %}" class="btn btn-block btn-lg btn-primary">Sign Up</a>
-        {% else %}
-            <a href="{% url 'tasks' %}" class="btn btn-block btn-lg btn-primary">Let's Roll!</a>
-        {% endif %}
+      <h3>Your Tasks</h3>
+
+          <ul class="list-group">
+              {% for task in tasks %}
+
+                <li class="list-group-item task clearfix">
+                    <span class="pull-left">{{ task }}</span>
+                    <a href class="btn btn-primary btn-sm complete-btn pull-right" data-task-id="{{ task.id }}">Done!</a>
+                </li>
+              {% endfor %}
+          </ul>
+
+
+         <a href="{% url 'add-task' %}" class="btn btn-block btn-lg btn-primary">Create a new task</a>
 
 
 
