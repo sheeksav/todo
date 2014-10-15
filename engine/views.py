@@ -33,6 +33,9 @@ class SignUpView(FormView):
         # Authenticate the user
         user = authenticate(username=username, password=password)
 
+        # Create a new task list for the user
+        list = ToDoList.objects.create(owner=user)
+
         # Log the user in
         login(self.request, user)
 
