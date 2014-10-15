@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
-from .models import ToDoList, ToDoItem
+from .models import UserProfile, ToDoList, ToDoItem
 from .forms import AddTaskForm, LoginForm, SignUpForm
 
 
@@ -32,6 +32,11 @@ class SignUpView(FormView):
 
         # Authenticate the user
         user = authenticate(username=username, password=password)
+
+        # Create user profile
+        profile = UserProfile.objects.create(
+            user=user,
+        )
 
         # Create a new task list for the user
         list = ToDoList.objects.create(owner=user)
