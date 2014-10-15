@@ -6,6 +6,7 @@ import random
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
+    is_admin = models.BooleanField(default=False)
 
     auth_token = models.TextField(blank=True, default=u'')
 
