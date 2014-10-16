@@ -66,3 +66,39 @@ class AddTaskForm(forms.Form):
         }
     ))
 
+
+class AssignTaskForm(forms.Form):
+    title = forms.CharField(required=True, widget=forms.TextInput(
+        attrs={
+            'type':'textarea',
+            'placeholder':'Enter title here...',
+            'class':'form-control',
+        }
+    ))
+    description = forms.CharField(required=False, widget=forms.Textarea(
+        attrs={
+            'type':'text',
+            'placeholder':'Enter description here...',
+            'class':'form-control',
+        }
+    ))
+    assignee = forms.CharField(required=False, widget=forms.TextInput(
+        attrs={
+            'type':'text',
+            'placeholder':'Enter assignee email address here...',
+            'class':'form-control',
+        }
+    ))
+    # assignee = forms.ChoiceField(required=False)
+
+    # def __init__(self, *args, **kwargs):
+    #
+    #     #managers = kwargs.pop('managers', None)
+    #     #assignees = User.objects.all()
+    #     assignees = kwargs.pop('assignees', None)
+    #
+    #     super(AssignTaskForm, self).__init__(*args, **kwargs)
+    #
+    #     if assignees:
+    #         self.fields.get('assignee').choices = assignees
+

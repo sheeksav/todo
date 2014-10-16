@@ -9,21 +9,32 @@
 
       <div class="content-container">
 
+        <h3>Assigned Tasks</h3>
+        <ul class="list-group">
+        {% for task in assigned_tasks %}
+            <li class="list-group-item task clearfix">
+                <span class="pull-left">{{ task }}</span>
+                <a href class="btn btn-warning btn-sm complete-btn pull-right" data-task-id="{{ task.id }}">Add!</a>
+            </li>
+        {% endfor %}
+        </ul>
 
-      <h3>Your Tasks</h3>
+        <h3>Your Tasks</h3>
+        <ul class="list-group">
+        {% for task in tasks %}
+            <li class="list-group-item task clearfix">
+                <span class="pull-left">{{ task }}</span>
+                <a href class="btn btn-primary btn-sm complete-btn pull-right" data-task-id="{{ task.id }}">Done</a>
+            </li>
+        {% endfor %}
+        </ul>
 
-          <ul class="list-group">
-              {% for task in tasks %}
+        <a href="{% url 'add-task' %}" class="btn btn-block btn-lg btn-primary">Create a new task</a>
 
-                <li class="list-group-item task clearfix">
-                    <span class="pull-left">{{ task }}</span>
-                    <a href class="btn btn-primary btn-sm complete-btn pull-right" data-task-id="{{ task.id }}">Done!</a>
-                </li>
-              {% endfor %}
-          </ul>
-
-
-         <a href="{% url 'add-task' %}" class="btn btn-block btn-lg btn-primary">Create a new task</a>
+        {% if user.profile.is_admin %}
+            <div>&nbsp;</div>
+            <a href="{% url 'assign-task' %}" class="btn btn-block btn-lg btn-primary">Assign a task</a>
+        {% endif %}
 
 
 

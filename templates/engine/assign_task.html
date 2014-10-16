@@ -1,0 +1,40 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+
+    <div class="container">
+
+        <h3>Assign a To-Do Item</h3>
+
+        <form role="form" method="post" action="">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+
+                <label for="title">Title</label>
+                {{ form.title.errors }}
+                {{ form.title }}
+
+
+                <label for="description">Description</label>
+                {{ form.description.errors }}
+                {{ form.description }}
+
+
+                <label for="assignee">Assign to User:</label>
+                {{ form.assignee.errors }}
+                {{ form.assignee }}
+
+
+            </div>
+
+            <button type="submit" class="btn btn-block btn-lg btn-primary">Submit</button>
+
+        </form>
+
+    </div>
+
+
+{% endblock %}

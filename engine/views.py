@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 from .models import UserProfile, ToDoList, ToDoItem
-from .forms import AddTaskForm, LoginForm, SignUpForm
+from .forms import AddTaskForm, AssignTaskForm, LoginForm, SignUpForm
 
 
 # Create your views here.
@@ -98,14 +98,21 @@ class ToDoListDisplayView(TemplateView):
 
     def get_context_data(self, **kwargs):
 
+        list = ToDoList.objects.get(owner=self.request.user)
+
         try:
-            list = ToDoList.objects.get(owner=self.request.user)
-            tasks = ToDoItem.objects.filter(list=list, complete=False)
-        except ToDoItem.DoesNotExit:
+            tasks = ToDoItem.objects.filter(list=list, complete=False, from_admin=False)
+        except ToDoItem.DoesNotExist:
             tasks = None
+
+        try:
+            assigned_tasks = ToDoItem.objects.filter(list=list, complete=False, from_admin=True)
+        except ToDoItem.DoesNotExist:
+            assigned_tasks = None
 
         return {
             'tasks': tasks,
+            'assigned_tasks': assigned_tasks,
         }
 
 
@@ -128,6 +135,82 @@ class AddTaskFormView(FormView):
         )
 
         return super(AddTaskFormView, self).form_valid(form)
+
+
+class AssignTaskFormView(FormView):
+    form_class = AssignTaskForm
+    template_name = 'engine/assign_task.html'
+    success_url = '/tasks/'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+
+        return super(AssignTaskFormView, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+
+        assignee = User.objects.get(email=form.cleaned_data.get('assignee'))
+
+        task = ToDoItem.objects.create(
+            list = ToDoList.objects.get(owner=assignee.pk),
+            #list = form.cleaned_data.get('assignee'),
+            title = form.cleaned_data.get('title'),
+            from_admin = True,
+            description = form.cleaned_data.get('description'),
+        )
+
+        return super(AssignTaskFormView, self).form_valid(form)
+
+
+# class AssignTaskFormView(TemplateView):
+#     template_name = 'engine/assign_task.html'
+#     http_method_names = ['get', 'post', ]
+#
+#     def dispatch(self, request, *args, **kwargs):
+#
+#         # Here we are somehow buildilng the list of people
+#         people = (('', '--------'), )
+#         for p in User.objects.all().order_by('last_name'):
+#             people = people + ((p.id, p.get_full_name()), )
+#
+#         self.assignees = people
+#
+#         return super(AssignTaskFormView, self).dispatch(request, *args, **kwargs)
+#
+#
+#     def get(self, request, *args, **kwargs):
+#
+#         context = self.get_context_data(**kwargs)
+#         context['form'] = AssignTaskForm(assignees=self.assignees)
+#
+#         return self.render_to_response(context)
+#
+#
+#     def post(self, requets, *args, **kwargs):
+#
+#         form = AssignTaskForm(assignees=self.assignees)
+#
+#         if form.is_valid():
+#             # Create the task
+#
+#             if form.cleaned_data.get('assignee', None):
+#                 try:
+#                     assignee = User.objects.get(pk=form.cleaned_data.get('assignee'))
+#                 except (User.DoesNotExist, User.MultipleObjectsReturned):
+#                     assignee = None
+#             else:
+#                 assignee = None
+#
+#
+#             task = ToDoItem.objects.create(
+#                 list = ToDoList.objects.get(owner__pk=assignee.user.pk),
+#                 title = form.cleaned_data.get('title'),
+#                 from_admin = True,
+#                 description = form.cleaned_data.get('description'),
+#             )
+#
+#         return redirect('tasks')
+
 
 
 class CompleteTaskAPIView(View):
