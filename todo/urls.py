@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 
 from engine.views import HomeView, LoginView, SignUpView, LogoutView, ToDoListDisplayView, CompleteTaskAPIView, \
-    AddTaskFormView, AssignTaskFormView, AcceptTaskAPIView
+    AddTaskFormView, AssignTaskFormView, AcceptTaskAPIView, ActivateView
 
 urlpatterns = patterns('',
     # Examples:
@@ -22,5 +22,6 @@ urlpatterns = patterns('',
     url(r'^signup/$', SignUpView.as_view(), name='signup'),
     url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^logout/$', LogoutView.as_view(), name='logout'),
+    url(r'^activate/$', ActivateView.as_view(), name='activate'),
 
 )

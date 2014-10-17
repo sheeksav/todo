@@ -35,9 +35,9 @@ class SignUpForm(forms.Form):
     last_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Last Name', 'class': 'form-control'}))
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email', 'class': 'form-control', 'type': 'email'}))
     password = forms.CharField(max_length=200,
-                               min_length=8,
-                               widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control', 'autocomplete': 'off'}),
-                               help_text=u'Must be between 8 and 200 characters')
+            min_length=8,
+            widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control', 'autocomplete': 'off'}),
+            help_text=u'Must be between 8 and 200 characters')
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -48,6 +48,15 @@ class SignUpForm(forms.Form):
                                          'If you want, <a href="/login/">click here</a> to log in.'))
 
         return email
+
+
+class ActivateForm(forms.Form):
+    first_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'First Name', 'class': 'form-control'}))
+    last_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Last Name', 'class': 'form-control'}))
+    password = forms.CharField(max_length=200,
+            min_length=8,
+            widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control', 'autocomplete': 'off'}),
+            help_text=u'Must be between 8 and 200 characters')
 
 
 class AddTaskForm(forms.Form):

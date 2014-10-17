@@ -6,11 +6,11 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 
 
 from .models import UserProfile, ToDoList, ToDoItem
-from .forms import AddTaskForm, AssignTaskForm, LoginForm, SignUpForm
+from .forms import AddTaskForm, AssignTaskForm, LoginForm, SignUpForm, ActivateForm
 
 
 # Create your views here.
@@ -85,6 +85,18 @@ class LogoutView(View):
         return redirect('home')
 
 
+class ActivateView(FormView):
+    form_class = ActivateForm
+    template_name = 'activate.html'
+    success_url = '/tasks/'
+
+    def form_valid(self, form):
+
+
+
+        return super(ActivateView, self).form_valid(form)
+
+
 class HomeView(TemplateView):
     template_name = 'engine/home.html'
 
@@ -156,6 +168,7 @@ class AssignTaskFormView(FormView):
         except User.DoesNotExist:
             assignee = User.objects.create_user(username=form.cleaned_data.get('assignee')[:30], email=form.cleaned_data.get('assignee'))
             list = ToDoList.objects.create(owner=assignee)
+            profile = UserProfile.objects.create(user=assignee)
 
         task = ToDoItem.objects.create(
             list = ToDoList.objects.get(owner=assignee.pk),
@@ -164,13 +177,20 @@ class AssignTaskFormView(FormView):
             description = form.cleaned_data.get('description'),
         )
 
-
         # Send the email
-        subject = "New ToDo Assigned to You"
-        message = "A new taks item has been assigned to you. You'd better do it now!"
+        subject = 'New ToDo Assigned to You'
+        message = 'A new task has been assigned to you. You\'d better go do it!'
+        html_message = '<p>A new task item has been assigned to you. You\'d better <a href="http://localhost:8000/activate/">go do it now</a>!</p>'
         sender = self.request.user.email
         recipient = assignee.email
-        send_mail(subject, message, sender,[recipient], fail_silently=False)
+        # send_mail(subject, message, sender,[recipient], fail_silently=False)
+
+        subject, from_email, to = subject, sender, recipient
+        text_content = message
+        html_content = html_message
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
 
 
         return super(AssignTaskFormView, self).form_valid(form)
