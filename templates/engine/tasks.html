@@ -9,18 +9,17 @@
 
       <div class="content-container">
 
-        <h3>Assigned Tasks</h3>
-        <ul class="list-group">
+        <ul class="list-group" id="assigned-tasks">
         {% for task in assigned_tasks %}
             <li class="list-group-item task clearfix">
                 <span class="pull-left">{{ task }}</span>
-                <a href class="btn btn-warning btn-sm complete-btn pull-right" data-task-id="{{ task.id }}">Add!</a>
+                <a href class="btn btn-warning btn-sm accept-btn pull-right" data-task-id="{{ task.id }}">Add!</a>
             </li>
         {% endfor %}
         </ul>
 
         <h3>Your Tasks</h3>
-        <ul class="list-group">
+        <ul class="list-group" id="user-tasks">
         {% for task in tasks %}
             <li class="list-group-item task clearfix">
                 <span class="pull-left">{{ task }}</span>
@@ -72,6 +71,36 @@
 
             // Made the li fade away
             $(this).parent().fadeOut();
+
+        });
+
+
+        $('.accept-btn').click(function() {
+            event.preventDefault();
+
+            var pk = $(this).data('task-id');
+            var url = '/accept-task/' + pk + '/';
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                async: true,
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    pk: pk,
+                },
+                success: function(json) {
+                     //alert('It worked!');
+                    //
+                }
+            });
+
+            // Move this to the user task list
+
+            $(this).parent().appendTo('ul#user-tasks');
+
+
 
         });
 

@@ -6,6 +6,8 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+
 
 from .models import UserProfile, ToDoList, ToDoItem
 from .forms import AddTaskForm, AssignTaskForm, LoginForm, SignUpForm
@@ -149,15 +151,27 @@ class AssignTaskFormView(FormView):
 
     def form_valid(self, form):
 
-        assignee = User.objects.get(email=form.cleaned_data.get('assignee'))
+        try:
+            assignee = User.objects.get(email=form.cleaned_data.get('assignee'))
+        except User.DoesNotExist:
+            assignee = User.objects.create_user(username=form.cleaned_data.get('assignee')[:30], email=form.cleaned_data.get('assignee'))
+            list = ToDoList.objects.create(owner=assignee)
 
         task = ToDoItem.objects.create(
             list = ToDoList.objects.get(owner=assignee.pk),
-            #list = form.cleaned_data.get('assignee'),
             title = form.cleaned_data.get('title'),
             from_admin = True,
             description = form.cleaned_data.get('description'),
         )
+
+
+        # Send the email
+        subject = "New ToDo Assigned to You"
+        message = "A new taks item has been assigned to you. You'd better do it now!"
+        sender = self.request.user.email
+        recipient = assignee.email
+        send_mail(subject, message, sender,[recipient], fail_silently=False)
+
 
         return super(AssignTaskFormView, self).form_valid(form)
 
@@ -212,7 +226,6 @@ class AssignTaskFormView(FormView):
 #         return redirect('tasks')
 
 
-
 class CompleteTaskAPIView(View):
     http_method_names = ['post', ]
 
@@ -229,6 +242,26 @@ class CompleteTaskAPIView(View):
         }
 
         return HttpResponse(response, content_type='application/json')
+
+
+class AcceptTaskAPIView(View):
+    http_method_names = ['post', ]
+
+    def post(self, request, *args, **kwargs):
+
+        task_id = request.POST.get('pk')
+
+        task = ToDoItem.objects.get(id=task_id)
+        task.from_admin = False
+        task.save()
+
+        response = {
+            'sucess': True,
+        }
+
+        return HttpResponse(response, content_type='application/json')
+
+
 
 
 

@@ -28,7 +28,7 @@ class ToDoList(models.Model):
     owner = models.ForeignKey(User)
 
     def __str__(self):
-        return u'To-Do List for %s' % self.owner.get_full_name()
+        return u'To-Do List for %s' % self.owner.email
 
 
 class ToDoItem(models.Model):
