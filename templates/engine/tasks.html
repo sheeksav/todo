@@ -10,25 +10,29 @@
       <div class="content-container">
 
 
+        {% if assigned_tasks %}
+            <h3 id="pending-tasks">Pending Tasks</h3>
+            <ul class="list-group" id="assigned-tasks">
+            {% for task in assigned_tasks %}
+                <li class="list-group-item task clearfix">
+                    <span class="pull-left">{{ task }}</span>
+                    <a href class="btn btn-warning btn-sm accept-btn pull-right" data-task-id="{{ task.id }}">Add!</a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
 
-        <ul class="list-group" id="assigned-tasks">
-        {% for task in assigned_tasks %}
-            <li class="list-group-item task clearfix">
-                <span class="pull-left">{{ task }}</span>
-                <a href class="btn btn-warning btn-sm accept-btn pull-right" data-task-id="{{ task.id }}">Add!</a>
-            </li>
-        {% endfor %}
-        </ul>
-
-        <h3>Your Tasks</h3>
-        <ul class="list-group" id="user-tasks">
-        {% for task in tasks %}
-            <li class="list-group-item task clearfix">
-                <span class="pull-left">{{ task }}</span>
-                <a href class="btn btn-primary btn-sm complete-btn pull-right" data-task-id="{{ task.id }}">Done</a>
-            </li>
-        {% endfor %}
-        </ul>
+        {% if tasks %}
+            <h3 id="user-tasks">Your Tasks</h3>
+            <ul class="list-group" id="user-tasks">
+            {% for task in tasks %}
+                <li class="list-group-item task clearfix">
+                    <span class="pull-left">{{ task }}</span>
+                    <a href class="btn btn-primary btn-sm complete-btn pull-right" data-task-id="{{ task.id }}">Done</a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
 
         <a href="{% url 'add-task' %}" class="btn btn-block btn-lg btn-primary">Create a new task</a>
 
@@ -49,6 +53,47 @@
 {% block extra_js %}
 
     <script>
+
+        var acceptTaskListLength = $('ul#assigned-tasks li').length;
+        var userTaskListLength = $('ul#user-tasks li').length;
+
+
+        $('.accept-btn').click(function() {
+            event.preventDefault();
+
+            var pk = $(this).data('task-id');
+            var url = '/accept-task/' + pk + '/';
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                async: true,
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    pk: pk,
+                },
+                success: function(json) {
+
+                }
+            });
+
+            // Move this to the user task list
+
+
+
+            $(this).html('Done').removeClass('btn-warning').addClass('btn-primary').parent().appendTo('ul#user-tasks');
+            acceptTaskListLength = $('ul#assigned-tasks li').length;
+            //alert(acceptTaskListLength);
+            if (acceptTaskListLength < 1) {
+                //alert('No more tasks :(')
+                $('h3#pending-tasks').fadeOut();
+            }
+
+
+        });
+
+
 
         $('.complete-btn').click(function() {
             event.preventDefault();
@@ -72,42 +117,18 @@
             });
 
             // Made the li fade away
-            $(this).parent().fadeOut();
+            $(this).parent().fadeOut().remove();
+
+
+            userTaskListLength = $('ul#user-tasks li').length;
+            //alert(acceptTaskListLength);
+            if (userTaskListLength < 1) {
+                //alert('No more tasks :(')
+                $('h3#user-tasks').fadeOut();
+            }
 
         });
 
-
-        $('.accept-btn').click(function() {
-            event.preventDefault();
-
-            var pk = $(this).data('task-id');
-            var url = '/accept-task/' + pk + '/';
-
-            $.ajax({
-                type: 'POST',
-                url: url,
-                dataType: 'json',
-                async: true,
-                data: {
-                    csrfmiddlewaretoken: '{{ csrf_token }}',
-                    pk: pk,
-                },
-                success: function(json) {
-                     //alert('It worked!');
-                    //
-                }
-            });
-
-            // Move this to the user task list
-
-            $(this).html('Done').removeClass('btn-warning').addClass('btn-primary').parent().appendTo('ul#user-tasks');
-
-
-
-        });
-
-
-        $(':checkbox').checkbox();
     </script>
 
 {% endblock %}
