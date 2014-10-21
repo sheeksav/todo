@@ -85,41 +85,6 @@ class LogoutView(View):
         return redirect('home')
 
 
-# class ActivateView(FormView):
-#     form_class = ActivateForm
-#     template_name = 'activate.html'
-#     success_url = '/tasks/'
-#
-#
-#     def get(self, request, *args, **kwargs):
-#
-#         auth_token = request.GET.get('auth_token')
-#
-#
-#
-#     def form_valid(self, form):
-#
-#         auth_token = self.request.POST.get('auth_token')
-#
-#         u = User.objects.get(profile__auth_token = auth_token)
-#         u.first_name = form.cleaned_data.get('first_name')
-#         u.last_name = form.cleaned_data.get('last_name')
-#         u.set_password(form.cleaned_data.get('password'))
-#         u.save()
-#
-#         # Authenticate the user
-#         # user = authenticate(username=username, password=password)
-#         # login(user)
-#
-#         # username = User.objects.get(email=form.cleaned_data.get('email')).username
-#         # user = authenticate(username=username, password=password)
-#         #
-#         # if user:
-#         #     login(self.request, user)
-#
-#         return super(ActivateView, self).form_valid(form)
-
-
 class ActivateView(FormView):
     template_name = 'activate.html'
     form_class = ActivateForm
@@ -131,7 +96,7 @@ class ActivateView(FormView):
         pk = kwargs.get('pk')
 
         try:
-            user = User.objects.get(pk=pk)
+            user = User.objects.get(profile__auth_token=token)
         except User.DoesNotExist:
             return redirect('home')
 
@@ -140,21 +105,9 @@ class ActivateView(FormView):
         return super(ActivateView, self).dispatch(request, *args, **kwargs)
 
 
-    # def get_context_data(self, **kwargs):
-    #
-    #     # user = User.objects.get(profile__auth_token=self.kwargs.get('token'))
-    #     #user = User.objects.get(pk=self.kwargs.get('pk'))
-    #     token = self.kwargs.get('token')
-    #     user = self.kwargs.get('user')
-    #
-    #     return {
-    #         'user': user,
-    #         'token': token,
-    #     }
-
     def form_valid(self, form):
 
-        user = User.objects.get(pk=self.kwargs.get('pk'))
+        user = User.objects.get(profile__auth_token=self.kwargs.get('token'))
 
         user.username = user.email[:30]
         user.first_name = form.cleaned_data['first_name']
@@ -169,9 +122,6 @@ class ActivateView(FormView):
         login(self.request, user)
 
         return super(ActivateView, self).form_valid(form)
-
-
-
 
 
 class HomeView(TemplateView):
