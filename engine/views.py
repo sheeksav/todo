@@ -173,6 +173,7 @@ class AddTaskFormView(FormView):
             list = ToDoList.objects.get(owner=self.request.user),
             title = form.cleaned_data.get('title'),
             description = form.cleaned_data.get('description'),
+            creator = self.request.user,
         )
 
         return super(AddTaskFormView, self).form_valid(form)
@@ -194,7 +195,7 @@ class AssignTaskFormView(FormView):
             assignee = User.objects.get(email=form.cleaned_data.get('assignee'))
             html_message = '<p>A new task item has been assigned to you. You\'d better <a href="http://localhost:8000/tasks">go do it now</a>!</p>'
         except User.DoesNotExist:
-            assignee = User.objects.create_user(username=form.cleaned_data.get('assignee')[:30], email=form.cleaned_data.get('assignee'))
+            assignee = User.objects.create_user(username=form.cleaned_data.get('assignee').lower()[:30], email=form.cleaned_data.get('assignee').lower())
             list = ToDoList.objects.create(owner=assignee)
             profile = UserProfile.objects.create(user=assignee)
             html_message = '<p>A new task item has been assigned to you. You\'d better <a href="http://localhost:8000/activate/'+str(assignee.pk)+'/'+assignee.profile.auth_token+'">go do it now</a>!</p>'
@@ -204,6 +205,7 @@ class AssignTaskFormView(FormView):
             title = form.cleaned_data.get('title'),
             from_admin = True,
             description = form.cleaned_data.get('description'),
+            creator = self.request.user,
         )
 
         # Send the email
@@ -310,8 +312,64 @@ class AcceptTaskAPIView(View):
         return HttpResponse(response, content_type='application/json')
 
 
+class TaskDetailView(TemplateView):
+    template_name = 'engine/task-detail.html'
+
+    def dispatch(self, request, *args, **kwargs):
+
+        task_id = kwargs.get('pk')
+
+        try:
+            task = ToDoItem.objects.get(pk=task_id)
+        except DoesNotExist:
+            return redirect('tasks')
+
+        kwargs['task'] = task
+
+        return super(TaskDetailView, self).dispatch(request, *args, **kwargs)
 
 
+    def get_context_data(self, **kwargs):
+
+        task = ToDoItem.objects.get(pk = kwargs.get('pk'))
+        creator = task.creator.get_full_name
+
+        context = {
+            'task': task,
+            'description': task.description,
+            'creator': creator,
+        }
+
+        return context
+
+
+def CompleteTaskView(request, pk):
+
+    if pk:
+        t = ToDoItem.objects.get(pk=pk)
+        t.complete = True
+        t.save()
+
+    return redirect('tasks')
+
+
+def AcceptTaskView(request, pk):
+
+    if pk:
+        t = ToDoItem.objects.get(pk=pk)
+        t.from_admin = False
+        t.save()
+
+    return redirect('tasks')
+
+
+def DeleteTaskView(request, pk):
+
+    if pk:
+        t = ToDoItem.objects.get(pk=pk)
+        t.delete()
+
+    return redirect('tasks')
 
 
 

@@ -10,8 +10,18 @@ label {
     margin: 0;
 }
 
+
+button {
+    background: none;
+    border: 0;
+}
+
+.glyphicon {
+    font-size: 1.2em;
+}
+
 .content-container {
-    padding: 90px 0 0 0;
+    padding: 60px 0 0 0;
 }
 
 .container {
@@ -40,4 +50,27 @@ ul.errorlist li {
 
 .form-group input {
     margin-bottom: 10px;
+}
+
+
+.list-group-item {
+    padding: 1em;
+}
+
+
+
+.task-list-btn {
+    text-align: left;
+    display: inline-block;
+    float: left;
+
+    width: 90%;
+
+    font-size: 1.1em;
+}
+
+.add-to-list-btn {
+    display: inline-block;
+    float: right;
+    width: 10%;
 }

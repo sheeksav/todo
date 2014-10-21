@@ -33,6 +33,7 @@ class ToDoList(models.Model):
 
 class ToDoItem(models.Model):
     list = models.ForeignKey(ToDoList)
+    creator = models.ForeignKey(User)
     title = models.CharField(blank=False, max_length=100)
     description = models.TextField(blank=True)
     complete = models.BooleanField(default=False)

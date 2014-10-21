@@ -9,40 +9,70 @@
 
       <div class="content-container">
 
-        <h3 id="pending-tasks">Pending Tasks</h3>
-        <ul class="list-group" id="assigned-tasks">
-        {% for task in assigned_tasks %}
-            <li class="list-group-item task clearfix">
-                <span class="pull-left">{{ task }}</span>
-                <button class="btn btn-warning btn-sm accept-btn pull-right" data-task-id="{{ task.id }}">Add!</button>
-            </li>
-        {% endfor %}
-        </ul>
-
-        <h3 id="user-tasks">Your Tasks</h3>
-        <ul class="list-group" id="user-tasks">
-        {% for task in tasks %}
-            <li class="list-group-item task clearfix">
-                <span class="pull-left">{{ task }}</span>
-                <button href class="btn btn-primary btn-sm complete-btn pull-right" data-task-id="{{ task.id }}">Done</button>
-            </li>
-        {% endfor %}
-        </ul>
+        {% if not assigned_tasks and not tasks %}
+            <h2>You have no tasks...<br />Create or assign one now!</h2>
+        {% endif %}
 
 
-        <a href="{% url 'add-task' %}" class="btn btn-block btn-lg btn-primary">Create a new task</a>
+        {% if assigned_tasks %}
+            <h3 id="pending-tasks">Pending Tasks</h3>
+            <ul class="list-group" id="assigned-tasks">
+            {% for task in assigned_tasks %}
+                <li class="list-group-item task clearfix">
+                    <!--<span class="pull-left">{{ task }}</span>
+                    <button class="btn btn-warning btn-sm accept-btn pull-right" data-task-id="{{ task.id }}">Add!</button>-->
+                    <a href="{% url 'task-detail' task.id %}" class="task-list-btn">{{ task }}</a>
+                    <button class="add-to-list-btn"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
 
 
+
+
+        {% if tasks %}
+            <h3 id="user-tasks">Your Tasks</h3>
+            <ul class="list-group" id="user-tasks">
+            {% for task in tasks %}
+                <li class="list-group-item task clearfix">
+                    <!--<span class="pull-left">{{ task }}</span>
+                    <button href class="btn btn-primary btn-sm complete-btn pull-right" data-task-id="{{ task.id }}">Done</button>-->
+                    <a href="{% url 'task-detail' task.id %}" class="task-list-btn">{{ task }}</a>
+                </li>
+            {% endfor %}
+            </ul>
+       {% endif %}
 
         <div>&nbsp;</div>
+        <a href="{% url 'add-task' %}" class="btn btn-block btn-lg btn-primary">Create a new task</a>
         <a href="{% url 'assign-task' %}" class="btn btn-block btn-lg btn-warning">Assign a task</a>
-
-
-
 
       </div>
 
     </div><!-- /.container -->
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="myModalLabel">Task Title</h4>
+          </div>
+          <div class="modal-body">
+            <p>McSweeney's crucifix disrupt pug craft beer readymade. Portland cliche Banksy photo booth, XOXO vinyl tofu iPhone disrupt bespoke chambray. Vinyl lomo umami Tonx. Pork belly bespoke VHS farm-to-table, readymade crucifix distillery sustainable asymmetrical polaroid ethical bicycle rights fashion axe American Apparel pop-up. Narwhal mixtape tofu Marfa, crucifix deep v Pinterest umami Schlitz jean shorts pickled PBR. Meggings shabby chic hella, American Apparel chambray Truffaut fashion axe Tumblr church-key skateboard Bushwick fixie locavore banjo gastropub. Artisan Marfa biodiesel vinyl, 8-bit Vice keffiyeh readymade dreamcatcher pour-over umami irony single-origin coffee art party.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
 {% endblock %}
 

@@ -3,7 +3,8 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 
 from engine.views import HomeView, LoginView, SignUpView, LogoutView, ToDoListDisplayView, CompleteTaskAPIView, \
-    AddTaskFormView, AssignTaskFormView, AcceptTaskAPIView, ActivateView
+    AddTaskFormView, AssignTaskFormView, AcceptTaskAPIView, ActivateView, TaskDetailView, CompleteTaskView, \
+    AcceptTaskView, DeleteTaskView
 
 urlpatterns = patterns('',
     # Examples:
@@ -16,8 +17,13 @@ urlpatterns = patterns('',
     url(r'^tasks/$', ToDoListDisplayView.as_view(), name='tasks'),
     url(r'^new-task/$', AddTaskFormView.as_view(), name='add-task'),
     url(r'^assign-task/$', AssignTaskFormView.as_view(), name='assign-task'),
-    url(r'^complete-task/(?P<pk>\d+)/$', CompleteTaskAPIView.as_view(), name='complete-task-api'),
-    url(r'^accept-task/(?P<pk>\d+)/$', AcceptTaskAPIView.as_view(), name='accept-task-api'),
+    url(r'^details/(?P<pk>\d+)/$', TaskDetailView.as_view(), name='task-detail'),
+    # url(r'^complete-task/(?P<pk>\d+)/$', CompleteTaskAPIView.as_view(), name='complete-task-api'),
+    # url(r'^accept-task/(?P<pk>\d+)/$', AcceptTaskAPIView.as_view(), name='accept-task-api'),
+    url(r'^complete-task/(?P<pk>\d+)/$', CompleteTaskView, name='complete-task'),
+    url(r'^accept-task/(?P<pk>\d+)/$', AcceptTaskView, name='accept-task'),
+    url(r'^delete-task/(?P<pk>\d+)/$', DeleteTaskView, name='delete-task'),
+
 
     url(r'^signup/$', SignUpView.as_view(), name='signup'),
     url(r'^login/$', LoginView.as_view(), name='login'),

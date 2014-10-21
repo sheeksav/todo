@@ -1,0 +1,40 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+
+    {% include 'engine/_navigation.html' %}
+
+    <div class="container">
+
+      <div class="content-container">
+
+
+        <h1>{{ task }}</h1>
+
+        <h4><b>Created by:</b> {{ creator }}</h4>
+
+        <p>{{ description }}</p>
+
+        <div>&nbsp;</div>
+
+
+        {% if task.from_admin and not task.complete %}
+
+            <a href="{% url 'accept-task' task.id %}" class="btn btn-block btn-lg btn-warning">Add to My List</a>
+            <a href="{% url 'delete-task' task.id %}" class="btn btn-block btn-lg btn-danger">Delete</a>
+
+        {% elif not task.from_admin and not task.complete%}
+
+            <a href="{% url 'complete-task' task.id %}" class="btn btn-block btn-lg btn-primary">Complete Task</a>
+
+        {% endif %}
+
+
+      </div>
+
+    </div><!-- /.container -->
+
+
+
+{% endblock %}
