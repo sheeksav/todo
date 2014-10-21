@@ -35,10 +35,10 @@
         <a href="{% url 'add-task' %}" class="btn btn-block btn-lg btn-primary">Create a new task</a>
 
 
-        {% if user.profile.is_admin %}
-            <div>&nbsp;</div>
-            <a href="{% url 'assign-task' %}" class="btn btn-block btn-lg btn-primary">Assign a task</a>
-        {% endif %}
+
+        <div>&nbsp;</div>
+        <a href="{% url 'assign-task' %}" class="btn btn-block btn-lg btn-warning">Assign a task</a>
+
 
 
 

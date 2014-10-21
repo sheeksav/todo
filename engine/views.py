@@ -192,7 +192,7 @@ class AssignTaskFormView(FormView):
 
         try:
             assignee = User.objects.get(email=form.cleaned_data.get('assignee'))
-            html_message = '<p>A new task item has been assigned to you. You\'d better <a href="http://localhost:8000/login">go do it now</a>!</p>'
+            html_message = '<p>A new task item has been assigned to you. You\'d better <a href="http://localhost:8000/tasks">go do it now</a>!</p>'
         except User.DoesNotExist:
             assignee = User.objects.create_user(username=form.cleaned_data.get('assignee')[:30], email=form.cleaned_data.get('assignee'))
             list = ToDoList.objects.create(owner=assignee)
@@ -207,8 +207,8 @@ class AssignTaskFormView(FormView):
         )
 
         # Send the email
-        subject = u'New ToDo Assigned to You'
-        message = 'A new task has been assigned to you. You\'d better go do it!'
+        subject = u"New ToDo Assigned to You"
+        message = u"A new task has been assigned to you. You'd better go do it!"
         html_message = html_message
         sender = self.request.user.email
         recipient = assignee.email
