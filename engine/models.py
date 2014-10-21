@@ -34,7 +34,7 @@ class ToDoList(models.Model):
 class ToDoItem(models.Model):
     list = models.ForeignKey(ToDoList)
     title = models.CharField(blank=False, max_length=100)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     complete = models.BooleanField(default=False)
     from_admin = models.BooleanField(default=False)
     updated = models.DateTimeField(auto_now_add=True)
