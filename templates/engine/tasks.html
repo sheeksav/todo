@@ -16,7 +16,7 @@
         {% for task in assigned_tasks %}
             <li class="list-group-item task clearfix">
                 <span class="pull-left">{{ task }}</span>
-                <a href class="btn btn-warning btn-sm accept-btn pull-right" data-task-id="{{ task.id }}">Add!</a>
+                <button class="btn btn-warning btn-sm accept-btn pull-right" data-task-id="{{ task.id }}">Add!</button>
             </li>
         {% endfor %}
         </ul>
@@ -26,7 +26,7 @@
         {% for task in tasks %}
             <li class="list-group-item task clearfix">
                 <span class="pull-left">{{ task }}</span>
-                <a href class="btn btn-primary btn-sm complete-btn pull-right" data-task-id="{{ task.id }}">Done</a>
+                <button href class="btn btn-primary btn-sm complete-btn pull-right" data-task-id="{{ task.id }}">Done</button>
             </li>
         {% endfor %}
         </ul>
