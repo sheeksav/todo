@@ -193,12 +193,12 @@ class AssignTaskFormView(FormView):
 
         try:
             assignee = User.objects.get(email=form.cleaned_data.get('assignee'))
-            html_message = '<p>A new task item has been assigned to you. You\'d better <a href="http://localhost:8000/tasks">go do it now</a>!</p>'
+            html_message = '<p>A new task item has been assigned to you. You\'d better <a href="http://'+settings.SITE_URL+'/tasks">go do it now</a>!</p>'
         except User.DoesNotExist:
             assignee = User.objects.create_user(username=form.cleaned_data.get('assignee').lower()[:30], email=form.cleaned_data.get('assignee').lower())
             list = ToDoList.objects.create(owner=assignee)
             profile = UserProfile.objects.create(user=assignee)
-            html_message = '<p>A new task item has been assigned to you. You\'d better <a href="http://localhost:8000/activate/'+assignee.profile.auth_token+'">go do it now</a>!</p>'
+            html_message = '<p>A new task item has been assigned to you. You\'d better <a href="http://'+settings.SITE_URL+'/activate/'+assignee.profile.auth_token+'">go do it now</a>!</p>'
 
         task = ToDoItem.objects.create(
             list = ToDoList.objects.get(owner=assignee.pk),
