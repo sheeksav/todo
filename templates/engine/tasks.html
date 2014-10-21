@@ -10,31 +10,30 @@
       <div class="content-container">
 
 
-        {% if assigned_tasks %}
-            <h3 id="pending-tasks">Pending Tasks</h3>
-            <ul class="list-group" id="assigned-tasks">
-            {% for task in assigned_tasks %}
-                <li class="list-group-item task clearfix">
-                    <span class="pull-left">{{ task }}</span>
-                    <a href class="btn btn-warning btn-sm accept-btn pull-right" data-task-id="{{ task.id }}">Add!</a>
-                </li>
-            {% endfor %}
-            </ul>
-        {% endif %}
 
-        {% if tasks %}
-            <h3 id="user-tasks">Your Tasks</h3>
-            <ul class="list-group" id="user-tasks">
-            {% for task in tasks %}
-                <li class="list-group-item task clearfix">
-                    <span class="pull-left">{{ task }}</span>
-                    <a href class="btn btn-primary btn-sm complete-btn pull-right" data-task-id="{{ task.id }}">Done</a>
-                </li>
-            {% endfor %}
-            </ul>
-        {% endif %}
+        <h3 id="pending-tasks">Pending Tasks</h3>
+        <ul class="list-group" id="assigned-tasks">
+        {% for task in assigned_tasks %}
+            <li class="list-group-item task clearfix">
+                <span class="pull-left">{{ task }}</span>
+                <a href class="btn btn-warning btn-sm accept-btn pull-right" data-task-id="{{ task.id }}">Add!</a>
+            </li>
+        {% endfor %}
+        </ul>
+
+        <h3 id="user-tasks">Your Tasks</h3>
+        <ul class="list-group" id="user-tasks">
+        {% for task in tasks %}
+            <li class="list-group-item task clearfix">
+                <span class="pull-left">{{ task }}</span>
+                <a href class="btn btn-primary btn-sm complete-btn pull-right" data-task-id="{{ task.id }}">Done</a>
+            </li>
+        {% endfor %}
+        </ul>
+
 
         <a href="{% url 'add-task' %}" class="btn btn-block btn-lg btn-primary">Create a new task</a>
+
 
         {% if user.profile.is_admin %}
             <div>&nbsp;</div>
@@ -54,13 +53,34 @@
 
     <script>
 
-        var acceptTaskListLength = $('ul#assigned-tasks li').length;
-        var userTaskListLength = $('ul#user-tasks li').length;
+
+
+        $('.complete-btn').click(function() {
+
+            var pk = $(this).data('task-id');
+            var url = '/complete-task/' + pk + '/';
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                async: true,
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    pk: pk,
+                },
+                success: function(json) {
+
+                }
+            });
+
+            // Made the li fade away
+            $(this).parent().remove();
+
+        });
 
 
         $('.accept-btn').click(function() {
-            event.preventDefault();
-
             var pk = $(this).data('task-id');
             var url = '/accept-task/' + pk + '/';
 
@@ -79,53 +99,8 @@
             });
 
             // Move this to the user task list
+            $(this).html('Done').removeClass('btn-warning accept-btn').addClass('btn-primary complete-btn').parent().appendTo('ul#user-tasks');
 
-
-
-            $(this).html('Done').removeClass('btn-warning').addClass('btn-primary').parent().appendTo('ul#user-tasks');
-            acceptTaskListLength = $('ul#assigned-tasks li').length;
-            //alert(acceptTaskListLength);
-            if (acceptTaskListLength < 1) {
-                //alert('No more tasks :(')
-                $('h3#pending-tasks').fadeOut();
-            }
-
-
-        });
-
-
-
-        $('.complete-btn').click(function() {
-            event.preventDefault();
-
-            var pk = $(this).data('task-id');
-            var url = '/complete-task/' + pk + '/';
-
-            $.ajax({
-                type: 'POST',
-                url: url,
-                dataType: 'json',
-                async: true,
-                data: {
-                    csrfmiddlewaretoken: '{{ csrf_token }}',
-                    pk: pk,
-                },
-                success: function(json) {
-                     //alert('It worked!');
-                    //
-                }
-            });
-
-            // Made the li fade away
-            $(this).parent().fadeOut().remove();
-
-
-            userTaskListLength = $('ul#user-tasks li').length;
-            //alert(acceptTaskListLength);
-            if (userTaskListLength < 1) {
-                //alert('No more tasks :(')
-                $('h3#user-tasks').fadeOut();
-            }
 
         });
 
