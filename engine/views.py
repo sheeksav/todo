@@ -131,7 +131,7 @@ class HomeView(TemplateView):
 class ToDoListDisplayView(TemplateView):
     template_name = 'engine/tasks.html'
 
-    # @method_decorator(login_required)
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
 
         return super(ToDoListDisplayView, self).dispatch(request, *args, **kwargs)
@@ -162,7 +162,7 @@ class AddTaskFormView(FormView):
     template_name = 'engine/new_task.html'
     success_url = '/tasks/'
 
-    # @method_decorator(login_required)
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
 
         return super(AddTaskFormView, self).dispatch(request, *args, **kwargs)
@@ -184,7 +184,7 @@ class AssignTaskFormView(FormView):
     template_name = 'engine/assign_task.html'
     success_url = '/tasks/'
 
-    # @method_decorator(login_required)
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
 
         return super(AssignTaskFormView, self).dispatch(request, *args, **kwargs)
@@ -315,6 +315,7 @@ class AcceptTaskAPIView(View):
 class TaskDetailView(TemplateView):
     template_name = 'engine/task-detail.html'
 
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
 
         task_id = kwargs.get('pk')
