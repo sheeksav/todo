@@ -93,6 +93,14 @@ TEMPLATE_DIRS = (
 
 
 
+
+# Email settings, the backend is kept as default.
+EMAIL_HOST = 'smtp.mandrillapp.com'
+EMAIL_PORT = 587
+EMAIL_HOST_PASSWORD = 'CQr-ZaRwNF5o4WTyGS2RKw'
+EMAIL_HOST_USER = 'andy.sheeks@gmail.com'
+
+
 # Configuring some stuff for Heroku
 
 # Parse database configuration from $DATABASE_URL
