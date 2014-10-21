@@ -16,10 +16,12 @@
         <li><a href="{% url 'tasks' %}">Tasks</a></li>
 
       </ul>
+      {% if user.is_authenticated %}
       <ul class="nav navbar-nav navbar-right">
           <li><a>Hello, {{ user.first_name }}</a></li>
           <li><a href="{% url 'logout' %}">Logout</a></li>
       </ul>
+      {% endif %}
     </div><!--/.nav-collapse -->
   </div>
 </div>
