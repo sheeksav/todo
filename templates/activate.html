@@ -12,9 +12,12 @@
 
                 <div class="col-xs-12">
 
+                    <p>User to activate: <b>{{ user }}</b></p>
+                    <p>Auth token: <b>{{ token }}</b></p>
+
                     <h2>Activate</h2>
 
-                    <form method="post" action="{% url 'activate' %}" role="form">
+                    <form method="post" action="" role="form">
 
                             {% csrf_token %}
 

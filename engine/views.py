@@ -85,16 +85,93 @@ class LogoutView(View):
         return redirect('home')
 
 
+# class ActivateView(FormView):
+#     form_class = ActivateForm
+#     template_name = 'activate.html'
+#     success_url = '/tasks/'
+#
+#
+#     def get(self, request, *args, **kwargs):
+#
+#         auth_token = request.GET.get('auth_token')
+#
+#
+#
+#     def form_valid(self, form):
+#
+#         auth_token = self.request.POST.get('auth_token')
+#
+#         u = User.objects.get(profile__auth_token = auth_token)
+#         u.first_name = form.cleaned_data.get('first_name')
+#         u.last_name = form.cleaned_data.get('last_name')
+#         u.set_password(form.cleaned_data.get('password'))
+#         u.save()
+#
+#         # Authenticate the user
+#         # user = authenticate(username=username, password=password)
+#         # login(user)
+#
+#         # username = User.objects.get(email=form.cleaned_data.get('email')).username
+#         # user = authenticate(username=username, password=password)
+#         #
+#         # if user:
+#         #     login(self.request, user)
+#
+#         return super(ActivateView, self).form_valid(form)
+
+
 class ActivateView(FormView):
-    form_class = ActivateForm
     template_name = 'activate.html'
+    form_class = ActivateForm
     success_url = '/tasks/'
+
+    def dispatch(self, request, *args, **kwargs):
+
+        token = kwargs.get('token')
+        pk = kwargs.get('pk')
+
+        try:
+            user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return redirect('home')
+
+        kwargs['user'] = user
+
+        return super(ActivateView, self).dispatch(request, *args, **kwargs)
+
+
+    # def get_context_data(self, **kwargs):
+    #
+    #     # user = User.objects.get(profile__auth_token=self.kwargs.get('token'))
+    #     #user = User.objects.get(pk=self.kwargs.get('pk'))
+    #     token = self.kwargs.get('token')
+    #     user = self.kwargs.get('user')
+    #
+    #     return {
+    #         'user': user,
+    #         'token': token,
+    #     }
 
     def form_valid(self, form):
 
+        user = User.objects.get(pk=self.kwargs.get('pk'))
 
+        user.username = user.email[:30]
+        user.first_name = form.cleaned_data['first_name']
+        user.last_name = form.cleaned_data['last_name']
+        user.set_password(form.cleaned_data['password'])
+        user.save()
+
+        # Authenticate the user
+        user = authenticate(username=user.username, password=form.cleaned_data['password'])
+
+        # Log the user in
+        login(self.request, user)
 
         return super(ActivateView, self).form_valid(form)
+
+
+
 
 
 class HomeView(TemplateView):
@@ -104,7 +181,7 @@ class HomeView(TemplateView):
 class ToDoListDisplayView(TemplateView):
     template_name = 'engine/tasks.html'
 
-    @method_decorator(login_required)
+    # @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
 
         return super(ToDoListDisplayView, self).dispatch(request, *args, **kwargs)
@@ -135,7 +212,7 @@ class AddTaskFormView(FormView):
     template_name = 'engine/new_task.html'
     success_url = '/tasks/'
 
-    @method_decorator(login_required)
+    # @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
 
         return super(AddTaskFormView, self).dispatch(request, *args, **kwargs)
@@ -156,7 +233,7 @@ class AssignTaskFormView(FormView):
     template_name = 'engine/assign_task.html'
     success_url = '/tasks/'
 
-    @method_decorator(login_required)
+    # @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
 
         return super(AssignTaskFormView, self).dispatch(request, *args, **kwargs)
@@ -178,12 +255,11 @@ class AssignTaskFormView(FormView):
         )
 
         # Send the email
-        subject = 'New ToDo Assigned to You'
+        subject = u'New ToDo Assigned to You'
         message = 'A new task has been assigned to you. You\'d better go do it!'
-        html_message = '<p>A new task item has been assigned to you. You\'d better <a href="http://localhost:8000/activate/">go do it now</a>!</p>'
+        html_message = '<p>A new task item has been assigned to you. You\'d better <a href="http://localhost:8000/activate/'+str(assignee.pk)+'/'+assignee.profile.auth_token+'">go do it now</a>!</p>'
         sender = self.request.user.email
         recipient = assignee.email
-        # send_mail(subject, message, sender,[recipient], fail_silently=False)
 
         subject, from_email, to = subject, sender, recipient
         text_content = message

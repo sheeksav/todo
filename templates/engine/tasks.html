@@ -9,6 +9,8 @@
 
       <div class="content-container">
 
+
+
         <ul class="list-group" id="assigned-tasks">
         {% for task in assigned_tasks %}
             <li class="list-group-item task clearfix">
@@ -98,7 +100,7 @@
 
             // Move this to the user task list
 
-            $(this).parent().appendTo('ul#user-tasks');
+            $(this).html('Done').removeClass('btn-warning').addClass('btn-primary').parent().appendTo('ul#user-tasks');
 
 
 
