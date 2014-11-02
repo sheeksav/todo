@@ -31,18 +31,6 @@ class ToDoList(models.Model):
         return u'To-Do List for %s' % self.owner.email
 
 
-class ToDoItem(models.Model):
-    list = models.ForeignKey(ToDoList)
-    creator = models.ForeignKey(User)
-    title = models.CharField(blank=False, max_length=100)
-    description = models.TextField(blank=True)
-    complete = models.BooleanField(default=False)
-    from_admin = models.BooleanField(default=False)
-    updated = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
-
 
 class BusinessUnit(models.Model):
     name = models.CharField(max_length=300)
@@ -59,6 +47,20 @@ class Goal(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ToDoItem(models.Model):
+    list = models.ForeignKey(ToDoList)
+    creator = models.ForeignKey(User)
+    title = models.CharField(blank=False, max_length=100)
+    description = models.TextField(blank=True)
+    complete = models.BooleanField(default=False)
+    from_admin = models.BooleanField(default=False)
+    updated = models.DateTimeField(auto_now_add=True)
+    goal = models.ForeignKey(Goal)
+
+    def __str__(self):
+        return self.title
 
 
 
