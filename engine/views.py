@@ -390,7 +390,7 @@ class DashboardView(TemplateView):
 
 
 
-class BizUnitGoalsView(TemplateView):
+class GoalsView(TemplateView):
     template_name = 'engine/biz_unit_goals.html'
 
 
@@ -410,7 +410,7 @@ class BizUnitGoalsView(TemplateView):
         kwargs['unit'] = unit
         kwargs['goals'] = goals
 
-        return super(BizUnitGoalsView, self).dispatch(request, *args, **kwargs)
+        return super(GoalsView, self).dispatch(request, *args, **kwargs)
 
 
     def get_context_data(self, **kwargs):
