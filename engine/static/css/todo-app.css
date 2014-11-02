@@ -55,6 +55,7 @@ ul.errorlist li {
 
 .list-group-item {
     padding: 1em;
+    text-align: left;
 }
 
 

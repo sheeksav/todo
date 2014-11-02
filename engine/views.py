@@ -11,7 +11,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 
 
-from .models import UserProfile, ToDoList, ToDoItem
+from .models import UserProfile, ToDoList, ToDoItem, BusinessUnit, Goal
 from .forms import AddTaskForm, AssignTaskForm, LoginForm, SignUpForm, ActivateForm
 
 
@@ -378,8 +378,47 @@ def DeleteTaskView(request, pk):
 class DashboardView(TemplateView):
     template_name = 'engine/dashboard.html'
 
+    def get_context_data(self):
+
+        biz_units = BusinessUnit.objects.all()
+
+        context = {
+            'biz_units': biz_units,
+        }
+
+        return context
 
 
+
+class BizUnitGoalsView(TemplateView):
+    template_name = 'engine/biz_unit_goals.html'
+
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+
+        try:
+            unit = BusinessUnit.objects.get(pk=kwargs.get('pk'))
+        except BusinessUnit.DoesNotExist:
+            return redirect('dashboard')
+
+        try:
+            goals = Goal.objects.filter(business_unit=kwargs.get('pk'))
+        except Goal.DoesNotExist:
+            return redirect('dashboard')
+
+        kwargs['unit'] = unit
+        kwargs['goals'] = goals
+
+        return super(BizUnitGoalsView, self).dispatch(request, *args, **kwargs)
+
+
+    def get_context_data(self, **kwargs):
+
+        return {
+            'unit': kwargs.get('unit'),
+            'goals': kwargs.get('goals'),
+        }
 
 
 

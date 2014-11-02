@@ -10,15 +10,17 @@
             <div class="row">
                 <div class="col-xs-12">
 
-                    <h2>Dashboard</h2>
+                    <h2>Goals for {{ unit }}</h2>
 
                     <ul class="list-group">
-                    {% for unit in biz_units %}
-                        <li class="list-group-item"><a href="{% url 'goals' unit.id %}">{{ unit }}</a></li>
+                    {% for g in goals %}
+                        <li class="list-group-item"><a href="">{{ g }}</a></li>
                     {% empty %}
-                        <p>You haven't entered any business units.</p>
+                        <p>You haven't entered any goals for this business unit.</p>
                     {% endfor %}
                     </ul>
+
+                    <a href="" class="btn btn-block btn-lg btn-primary">Add New Goal</a>
 
                 </div>
             </div>
