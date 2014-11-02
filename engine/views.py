@@ -237,7 +237,7 @@ class AssignTaskFormView(FormView):
 #         # Here we are somehow buildilng the list of people
 #         people = (('', '--------'), )
 #         for p in User.objects.all().order_by('last_name'):
-#             people = people + ((p.id, p.get_full_name()), )
+#             people = people + ((p.id, p.email), )
 #
 #         self.assignees = people
 #
@@ -391,7 +391,7 @@ class DashboardView(TemplateView):
 
 
 class GoalsView(TemplateView):
-    template_name = 'engine/biz_unit_goals.html'
+    template_name = 'engine/goals.html'
 
 
     @method_decorator(login_required)
@@ -419,6 +419,39 @@ class GoalsView(TemplateView):
             'unit': kwargs.get('unit'),
             'goals': kwargs.get('goals'),
         }
+
+
+class GoalsDetailView(TemplateView):
+    template_name = 'engine/goals_detail.html'
+
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+
+        try:
+            goal = Goal.objects.get(pk=kwargs.get('pk'))
+        except Goal.DoesNotExist:
+            return redirect('goals')
+
+        try:
+            tasks = ToDoItem.objects.filter(goal=goal)
+        except ToDoItem.DoesNotExist:
+            return redirect('goals')
+
+        kwargs['goal'] = goal
+        kwargs['tasks'] = tasks
+
+        return super(GoalsDetailView, self).dispatch(request, *args, **kwargs)
+
+
+    def get_context_data(self, **kwargs):
+
+        return {
+            'goal': kwargs.get('goal'),
+            'tasks': kwargs.get('tasks'),
+        }
+
+
 
 
 

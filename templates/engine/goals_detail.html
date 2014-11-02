@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+    {% include 'engine/_navigation.html' %}
+
+    <div class="container">
+        <div class="content-container">
+            <div class="row">
+                <div class="col-xs-12">
+
+                    <h2>Tasks for {{ goal }}</h2>
+
+                     <ul class="list-group">
+                    {% for task in tasks %}
+                        <li class="list-group-item"><a href="{% url 'task-detail' task.id %}">{{ task }}</a></li>
+                    {% empty %}
+                        <p>You haven't entered any taks for this goal.</p>
+                    {% endfor %}
+                    </ul>
+
+                    <a href="" class="btn btn-block btn-lg btn-primary">Add New Task</a>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+
+
+{% endblock %}

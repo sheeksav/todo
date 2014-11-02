@@ -13,8 +13,8 @@
                     <h2>Goals for {{ unit }}</h2>
 
                     <ul class="list-group">
-                    {% for g in goals %}
-                        <li class="list-group-item"><a href="">{{ g }}</a></li>
+                    {% for goal in goals %}
+                        <li class="list-group-item"><a href="{% url 'goals-detail' goal.id  %}">{{ goal }}</a></li>
                     {% empty %}
                         <p>You haven't entered any goals for this business unit.</p>
                     {% endfor %}
