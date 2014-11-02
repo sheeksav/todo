@@ -44,6 +44,17 @@ class ToDoItem(models.Model):
         return self.title
 
 
+class BusinessUnit(models.Model):
+    name = models.CharField(max_length=300)
+    manager = models.ForeignKey(User, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    
+
+
+
 
 
 

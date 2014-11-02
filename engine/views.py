@@ -8,6 +8,8 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMultiAlternatives
 
+from django.conf import settings
+
 
 from .models import UserProfile, ToDoList, ToDoItem
 from .forms import AddTaskForm, AssignTaskForm, LoginForm, SignUpForm, ActivateForm
