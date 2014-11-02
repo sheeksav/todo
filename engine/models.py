@@ -46,7 +46,7 @@ class ToDoItem(models.Model):
 
 class BusinessUnit(models.Model):
     name = models.CharField(max_length=300)
-    manager = models.ForeignKey(User, blank=True)
+    manager = models.ForeignKey(User, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -54,7 +54,7 @@ class BusinessUnit(models.Model):
 
 class Goal(models.Model):
     name = models.CharField(max_length=300)
-    owner = models.ForeignKey(User, blank=True)
+    owner = models.ForeignKey(User, null=True, blank=True)
 
     def __str__(self):
         return self.name
