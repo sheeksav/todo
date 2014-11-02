@@ -375,6 +375,9 @@ def DeleteTaskView(request, pk):
     return redirect('tasks')
 
 
+class DashboardView(TemplateView):
+    template_name = 'engine/dashboard.html'
+
 
 
 
