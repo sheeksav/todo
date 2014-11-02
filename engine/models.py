@@ -55,6 +55,7 @@ class BusinessUnit(models.Model):
 class Goal(models.Model):
     name = models.CharField(max_length=300)
     owner = models.ForeignKey(User, null=True, blank=True)
+    business_unit = models.ForeignKey(BusinessUnit)
 
     def __str__(self):
         return self.name
