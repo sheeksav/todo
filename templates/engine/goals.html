@@ -16,11 +16,13 @@
                     {% for goal in goals %}
                         <li class="list-group-item"><a href="{% url 'goals-detail' goal.id  %}">{{ goal }}</a></li>
                     {% empty %}
-                        <p>You haven't entered any goals for this business unit.</p>
+                        <p class="lead">You haven't entered any goals for this business unit.</p>
                     {% endfor %}
                     </ul>
 
-                    <a href="" class="btn btn-block btn-lg btn-primary">Add New Goal</a>
+                    <a href="{% url 'goals-add' unit.id %}" class="btn btn-block btn-lg btn-primary">Add New {{ unit }} Goal</a>
+                    <div>&nbsp;</div>
+                    <a href="{% url 'dashboard' %}">Back to Dashboard</a>
 
                 </div>
             </div>

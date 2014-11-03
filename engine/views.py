@@ -13,7 +13,7 @@ from django.conf import settings
 
 from .models import UserProfile, ToDoList, ToDoItem, BusinessUnit, Goal
 from .forms import AddTaskForm, AssignTaskForm, LoginForm, SignUpForm, ActivateForm, ProjectStatusForm, \
-    AddBizUnitForm
+    AddBizUnitForm, AddGoalForm
 
 
 # Create your views here.
@@ -432,7 +432,6 @@ class AddUnitView(FormView):
         return super(AddUnitView, self).form_valid(form)
 
 
-
 class GoalsView(TemplateView):
     template_name = 'engine/goals.html'
 
@@ -464,6 +463,56 @@ class GoalsView(TemplateView):
         }
 
 
+class AddGoalView(FormView):
+    template_name = 'engine/add_goal.html'
+    form_class = AddGoalForm
+    success_url = ''
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+
+        pk = kwargs.get('pk')
+        kwargs['unit'] = BusinessUnit.objects.get(pk=pk)
+
+        return super(AddGoalView, self).dispatch(request, *args, **kwargs)
+
+
+    def get(self, *args, **kwargs):
+
+        context = self.get_context_data(**kwargs)
+        context['form'] = self.get_form(form_class=self.get_form_class())
+        context['unit'] = kwargs.get('unit')
+
+        return self.render_to_response(context)
+
+
+    def post(self, request, *args, **kwargs):
+
+        form = self.get_form_class()(request.POST)
+
+        if not form.is_valid():
+            context = self.get_context_data(**kwargs)
+            context['form'] = form
+            context['unit'] = kwargs.get('unit')
+
+            return self.render_to_response(context=context)
+
+        return self.form_valid(form=form)
+
+
+    def form_valid(self, form):
+
+        goal = Goal.objects.create(
+            name=form.cleaned_data.get('name'),
+            business_unit = BusinessUnit.objects.get(pk=self.kwargs.get('pk')),
+        )
+        goal.save()
+
+        self.success_url = '/dashboard/goals/%s/' % goal.business_unit.id
+
+        return super(AddGoalView, self).form_valid(form)
+
+
 class GoalsDetailView(TemplateView):
     template_name = 'engine/goals_detail.html'
 
@@ -493,10 +542,6 @@ class GoalsDetailView(TemplateView):
             'goal': kwargs.get('goal'),
             'tasks': kwargs.get('tasks'),
         }
-
-
-
-
 
 
 

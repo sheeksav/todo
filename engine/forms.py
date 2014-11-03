@@ -126,3 +126,13 @@ class AddBizUnitForm(forms.Form):
             'class':'form-control',
         }
     ))
+
+
+class AddGoalForm(forms.Form):
+    name = forms.CharField(required=True, widget=forms.TextInput(
+        attrs={
+            'type':'textarea',
+            'placeholder':'Enter goal here...',
+            'class':'form-control',
+        }
+    ))
