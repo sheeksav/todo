@@ -414,7 +414,7 @@ class DashboardView(TemplateView):
         return context
 
 
-class DashboardAddUnitView(FormView):
+class AddUnitView(FormView):
     form_class = AddBizUnitForm
     template_name = 'engine/add_business_unit.html'
     success_url = '/dashboard/'
@@ -422,14 +422,14 @@ class DashboardAddUnitView(FormView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
 
-        return super(DashboardAddUnitView, self).dispatch(request, *args, **kwargs)
+        return super(AddUnitView, self).dispatch(request, *args, **kwargs)
 
 
     def form_valid(self, form):
 
         unit = BusinessUnit.objects.create(name = form.cleaned_data.get('name'))
 
-        return super(DashboardAddUnitView, self).form_valid(form)
+        return super(AddUnitView, self).form_valid(form)
 
 
 
