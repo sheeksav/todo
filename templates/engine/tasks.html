@@ -14,38 +14,35 @@
         {% endif %}
 
 
-        {% if assigned_tasks %}
-            <h2 id="pending-tasks">Tasks Assigned to Me</h2>
-            <ul class="list-group" id="assigned-tasks">
-            {% for task in assigned_tasks %}
-                <li class="list-group-item task clearfix">
-                    <!--<span class="pull-left">{{ task }}</span>
-                    <button class="btn btn-warning btn-sm accept-btn pull-right" data-task-id="{{ task.id }}">Add!</button>-->
-                    <a href="{% url 'task-detail' task.id %}">{{ task }}</a>
-                    <!--<button class="add-to-list-btn"><span class="glyphicon glyphicon-chevron-down"></span></button>-->
+        {% if tasks %}
+            <h2 id="pending-tasks">My Tasks</h2>
+            <ul class="list-group">
+            {% for task in tasks %}
+                <li class="list-group-item clearfix">
+                    <div class="pull-left">
+                        <a href="{% url 'task-detail' task.id %}">{{ task }}</a>
+                    </div>
+                    <div class="pull-right">
+                        <em>{{ task.goal.business_unit }} > {{ task.goal }}</em>
+                    </div>
                 </li>
             {% endfor %}
             </ul>
         {% endif %}
 
 
-
-
-        {% if tasks %}
-            <h2 id="user-tasks">Your Tasks</h2>
-            <ul class="list-group" id="user-tasks">
-            {% for task in tasks %}
-                <li class="list-group-item task clearfix">
-                    <!--<span class="pull-left">{{ task }}</span>
-                    <button href class="btn btn-primary btn-sm complete-btn pull-right" data-task-id="{{ task.id }}">Done</button>-->
-                    <a href="{% url 'task-detail' task.id %}">{{ task }}</a>
-                    <span class="pull-right status-green">&nbsp;</span>
-                </li>
+        {% if completed_tasks %}
+            <h3>Completed Tasks</h3>
+            <ul>
+            {% for task in completed_tasks %}
+                <li><b><del>{{ task }}</del></b>&nbsp;&nbsp;&nbsp;<small>{{ task.goal.business_unit }} > {{ task.goal }}</small></li>
             {% endfor %}
             </ul>
-       {% endif %}
+        {% endif %}
+
 
         <div>&nbsp;</div>
+
 {#        <a href="{% url 'add-task' %}" class="btn btn-block btn-lg btn-primary">Create a new task</a>#}
 {#        <a href="{% url 'assign-task' %}" class="btn btn-block btn-lg btn-warning">Assign a task</a>#}
           <a href="{% url 'dashboard' %}">Visit Dashboard</a>

@@ -12,7 +12,7 @@
 
                     <h2>Tasks for {{ goal }}</h2>
 
-                     <ul class="list-group">
+                    <ul class="list-group">
                     {% for task in tasks %}
                         <li class="list-group-item clearfix">
                             <div class="pull-left">
@@ -24,13 +24,28 @@
 
                         </li>
                     {% empty %}
-                        <p class="lead">You haven't entered any taks for this goal.</p>
+                        <p class="lead">You haven't entered any tasks for this goal.</p>
                     {% endfor %}
                     </ul>
 
-                    <a href="{% url 'assign-task' goal.id %}" class="btn btn-block btn-lg btn-primary">Add New Task</a>
+
+
+
+                    <a href="{% url 'assign-task' goal.id %}" class="btn btn-lg btn-primary">Add New Task</a>
                     <div>&nbsp;</div>
                     <a href="{% url 'goals' goal.business_unit.pk %}">Back to <b>{{ goal.business_unit }}</b> Goals</a>
+
+
+                    <hr />
+
+                    {% if completed_tasks %}
+                    <h3>Completed Tasks</h3>
+                    <ul>
+                    {% for task in completed_tasks %}
+                        <li><b><del>{{ task }}</del></b>&nbsp;&nbsp;&nbsp;<small>Completed by <b>{{ task.list.owner }}</b></small></li>
+                    {% endfor %}
+                    </ul>
+                    {% endif %}
 
 
 

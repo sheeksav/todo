@@ -145,18 +145,18 @@ class ToDoListDisplayView(TemplateView):
         list = ToDoList.objects.get(owner=self.request.user)
 
         try:
-            tasks = ToDoItem.objects.filter(list=list, complete=False, from_admin=False)
+            tasks = ToDoItem.objects.filter(list=list, complete=False)
         except ToDoItem.DoesNotExist:
             tasks = None
 
         try:
-            assigned_tasks = ToDoItem.objects.filter(list=list, complete=False, from_admin=True)
+            completed_tasks = ToDoItem.objects.filter(list=list, complete=True)
         except ToDoItem.DoesNotExist:
-            assigned_tasks = None
+            completed_tasks = None
 
         return {
             'tasks': tasks,
-            'assigned_tasks': assigned_tasks,
+            'completed_tasks': completed_tasks,
         }
 
 
@@ -259,18 +259,6 @@ class AssignTaskFormView(FormView):
 
         return super(AssignTaskFormView, self).form_valid(form)
 
-
-    # def form_valid(self, form):
-    #
-    #     goal = Goal.objects.create(
-    #         name=form.cleaned_data.get('name'),
-    #         business_unit = BusinessUnit.objects.get(pk=self.kwargs.get('pk')),
-    #     )
-    #     goal.save()
-    #
-    #     self.success_url = '/dashboard/goals/%s/' % goal.business_unit.id
-    #
-    #     return super(AddGoalView, self).form_valid(form)
 
 
 # class AssignTaskFormView(TemplateView):
@@ -575,12 +563,18 @@ class GoalsDetailView(TemplateView):
             return redirect('goals')
 
         try:
-            tasks = ToDoItem.objects.filter(goal=goal)
+            tasks = ToDoItem.objects.filter(goal=goal, complete=False)
         except ToDoItem.DoesNotExist:
             return redirect('goals')
 
+        try:
+            completed_tasks = ToDoItem.objects.filter(goal=goal, complete=True)
+        except ToDoItem.DoesNotExist:
+            completed_tasks = None
+
         kwargs['goal'] = goal
         kwargs['tasks'] = tasks
+        kwargs['completed_tasks'] = completed_tasks
 
         return super(GoalsDetailView, self).dispatch(request, *args, **kwargs)
 
@@ -590,8 +584,7 @@ class GoalsDetailView(TemplateView):
         return {
             'goal': kwargs.get('goal'),
             'tasks': kwargs.get('tasks'),
+            'completed_tasks': kwargs.get('completed_tasks'),
         }
-
-
 
 
