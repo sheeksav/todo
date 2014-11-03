@@ -39,6 +39,7 @@
                     <!--<span class="pull-left">{{ task }}</span>
                     <button href class="btn btn-primary btn-sm complete-btn pull-right" data-task-id="{{ task.id }}">Done</button>-->
                     <a href="{% url 'task-detail' task.id %}" class="task-list-btn">{{ task }}</a>
+                    <span class="pull-right status-green">&nbsp;</span>
                 </li>
             {% endfor %}
             </ul>

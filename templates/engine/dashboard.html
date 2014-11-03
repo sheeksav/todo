@@ -11,6 +11,7 @@
                 <div class="col-xs-12">
 
                     <h2>Dashboard</h2>
+                    <p class="lead">Your organization's business units are listed below. Click to view your organizational goals within each department.</p>
 
                     <ul class="list-group">
                     {% for unit in biz_units %}
@@ -19,6 +20,8 @@
                         <p>You haven't entered any business units.</p>
                     {% endfor %}
                     </ul>
+
+                    <a href="{% url 'add-unit' %}" class="btn btn-block btn-lg btn-primary">Add new Business Unit</a>
 
                 </div>
             </div>

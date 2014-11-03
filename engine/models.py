@@ -4,6 +4,13 @@ import string
 import random
 
 
+PROJECT_STATUS = (
+    ('1', 'I\'m in good shape'),
+    ('2', 'I need help'),
+    ('3', 'I am in trouble'),
+)
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
     is_admin = models.BooleanField(default=False)
@@ -58,6 +65,7 @@ class ToDoItem(models.Model):
     from_admin = models.BooleanField(default=False)
     updated = models.DateTimeField(auto_now_add=True)
     goal = models.ForeignKey(Goal)
+    status = models.CharField(max_length=30, choices=PROJECT_STATUS)
 
     def __str__(self):
         return self.title

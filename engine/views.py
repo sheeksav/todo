@@ -12,7 +12,8 @@ from django.conf import settings
 
 
 from .models import UserProfile, ToDoList, ToDoItem, BusinessUnit, Goal
-from .forms import AddTaskForm, AssignTaskForm, LoginForm, SignUpForm, ActivateForm
+from .forms import AddTaskForm, AssignTaskForm, LoginForm, SignUpForm, ActivateForm, ProjectStatusForm, \
+    AddBizUnitForm
 
 
 # Create your views here.
@@ -316,6 +317,7 @@ class AcceptTaskAPIView(View):
 
 class TaskDetailView(TemplateView):
     template_name = 'engine/task-detail.html'
+    http_method_names = ['get', 'post', ]
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -341,9 +343,32 @@ class TaskDetailView(TemplateView):
             'task': task,
             'description': task.description,
             'creator': creator,
+            'form': ProjectStatusForm(),
         }
 
         return context
+
+
+    def post(self, request, *args, **kwargs):
+
+        form = ProjectStatusForm()
+
+        if form.is_valid():
+
+            #Get the task ID
+            task = ToDoItem.objects.get(pk = kwargs.get('pk'))
+
+            # Get the status from the form
+            status = form.cleaned_data.get('status')
+
+            # Update the taks status im DB
+            task.status = status
+            task.save()
+
+
+        #context = self.get_context_data(**kwargs)
+        #return self.render_to_response(context)
+        return redirect('tasks')
 
 
 def CompleteTaskView(request, pk):
@@ -387,6 +412,24 @@ class DashboardView(TemplateView):
         }
 
         return context
+
+
+class DashboardAddUnitView(FormView):
+    form_class = AddBizUnitForm
+    template_name = 'engine/add_business_unit.html'
+    success_url = '/dashboard/'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+
+        return super(DashboardAddUnitView, self).dispatch(request, *args, **kwargs)
+
+
+    def form_valid(self, form):
+
+        unit = BusinessUnit.objects.create(name = form.cleaned_data.get('name'))
+
+        return super(DashboardAddUnitView, self).form_valid(form)
 
 
 

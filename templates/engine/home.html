@@ -9,13 +9,13 @@
 
       <div class="content-container">
         <h2>Welp, here it is.</h2>
-        <p class="lead">Pretty much the greatest to-do app that has been done.</p>
+        <p class="lead">See who's working on what within your organization.</p>
 
         {% if not user.is_authenticated %}
             <a href="{% url 'login' %}" class="btn btn-block btn-lg btn-primary">Login</a>
             <a href="{% url 'signup' %}" class="btn btn-block btn-lg btn-primary">Sign Up</a>
         {% else %}
-            <a href="{% url 'tasks' %}" class="btn btn-block btn-lg btn-primary">Let's Roll!</a>
+            <a href="{% url 'dashboard' %}" class="btn btn-block btn-lg btn-primary">Let's Roll!</a>
         {% endif %}
 
 

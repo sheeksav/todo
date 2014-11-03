@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+
+    {% include 'engine/_navigation.html' %}
+
+    <div class="container">
+        <div class="content-container">
+            <div class="row">
+                <div class="col-xs-12">
+
+                    <h2>Add Business Unit</h2>
+
+                     <form role="form" method="post" action="">
+
+                            {% csrf_token %}
+
+                            {{ form.errors.name }}
+                            {{ form.name }}
+
+                            <div>&nbsp;</div>
+
+                            <button type="submit" class="btn btn-lg btn-block btn-primary">Add</button>
+
+                     </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

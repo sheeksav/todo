@@ -25,7 +25,7 @@ button {
 }
 
 .container {
-    text-align: center;
+    /*text-align: center;*/
 }
 
 .task {
@@ -74,4 +74,31 @@ ul.errorlist li {
     display: inline-block;
     float: right;
     width: 10%;
+}
+
+
+
+/* -------------------------------- */
+/* Project Status Buttons           */
+/* -------------------------------- */
+
+.status-green {
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    background-color: green;
+}
+
+.status-yellow {
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    background-color: yellow;
+}
+
+.status-red {
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    background-color: red;
 }

@@ -4,6 +4,8 @@ from django.utils.html import mark_safe
 from django.contrib.auth import authenticate
 from django.forms.util import ErrorList
 
+from .models import PROJECT_STATUS
+
 
 class LoginForm(forms.Form):
     email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Email', 'class': 'form-control', 'type': 'email'}))
@@ -110,3 +112,17 @@ class AssignTaskForm(forms.Form):
         if assignees:
             self.fields.get('assignee').choices = assignees
 
+
+class ProjectStatusForm(forms.Form):
+    status = forms.ChoiceField(required=True, choices=PROJECT_STATUS,
+                                widget=forms.Select)
+
+
+class AddBizUnitForm(forms.Form):
+    name = forms.CharField(required=True, widget=forms.TextInput(
+        attrs={
+            'type':'textarea',
+            'placeholder':'Enter business unit name here...',
+            'class':'form-control',
+        }
+    ))
