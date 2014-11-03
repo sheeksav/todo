@@ -81,7 +81,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
@@ -130,7 +129,7 @@ STATICFILES_DIRS = (
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
-SITE_URL = 'https://accomplishedtodo.herokuapp.com'
+SITE_URL = 'accomplishedtodo.herokuapp.com'
 
 
 

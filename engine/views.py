@@ -447,6 +447,11 @@ def DeleteTaskView(request, pk):
 class DashboardView(TemplateView):
     template_name = 'engine/dashboard.html'
 
+    @method_decorator(login_required)
+    def disptach(self, request, *args, **kwargs):
+
+        return super(DashboardView, self).dispatch(request, *args, **kwargs)
+
     def get_context_data(self):
 
         biz_units = BusinessUnit.objects.all()
