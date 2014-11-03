@@ -11,7 +11,16 @@ PROJECT_STATUS = (
 )
 
 
-class UserProfile(models.Model):
+class BaseModel(models.Model):
+
+    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    modified = models.DateTimeField(auto_now=True, null=True, blank=True)
+
+    class Meta:
+        abstract = True
+
+
+class UserProfile(BaseModel):
     user = models.OneToOneField(User, related_name='profile')
     is_admin = models.BooleanField(default=False)
 
@@ -31,7 +40,7 @@ class UserProfile(models.Model):
         return super(UserProfile, self).save(force_insert, force_update, using, update_fields)
 
 
-class ToDoList(models.Model):
+class ToDoList(BaseModel):
     owner = models.ForeignKey(User)
 
     def __str__(self):
@@ -39,7 +48,7 @@ class ToDoList(models.Model):
 
 
 
-class BusinessUnit(models.Model):
+class BusinessUnit(BaseModel):
     name = models.CharField(max_length=300)
     manager = models.ForeignKey(User, null=True, blank=True)
 
@@ -47,7 +56,7 @@ class BusinessUnit(models.Model):
         return self.name
 
 
-class Goal(models.Model):
+class Goal(BaseModel):
     name = models.CharField(max_length=300)
     owner = models.ForeignKey(User, null=True, blank=True)
     business_unit = models.ForeignKey(BusinessUnit)
@@ -56,7 +65,7 @@ class Goal(models.Model):
         return self.name
 
 
-class ToDoItem(models.Model):
+class ToDoItem(BaseModel):
     list = models.ForeignKey(ToDoList)
     creator = models.ForeignKey(User)
     title = models.CharField(blank=False, max_length=100)
@@ -70,7 +79,7 @@ class ToDoItem(models.Model):
     def __str__(self):
         return self.title
 
-
+3
 
 
 
