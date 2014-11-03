@@ -122,10 +122,6 @@ STATICFILES_DIRS = (
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
-SITE_URL = 'accomplishedtodo.herokuapp.com'
-
-
-
 try:
     from local_settings import *
 except ImportError:
