@@ -62,7 +62,13 @@
 {#        {% endif %}#}
 
 
+{#        {{ user }}#}
+{#        {{ task.list.owner }}#}
+
+
+        {% if user == task.list.owner %}
         <a href="{% url 'complete-task' task.id %}" class="btn btn-lg btn-primary">Complete Task</a>
+        {% endif %}
 
         <div>&nbsp;</div>
         <a href="{% url 'goals-detail' task.goal.pk %}">Back to Goals for <b>{{ task.goal }}</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{% url 'tasks' %}">View My Tasks</a>
