@@ -448,7 +448,7 @@ class DashboardView(TemplateView):
     template_name = 'engine/dashboard.html'
 
     @method_decorator(login_required)
-    def disptach(self, request, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
 
         return super(DashboardView, self).dispatch(request, *args, **kwargs)
 
