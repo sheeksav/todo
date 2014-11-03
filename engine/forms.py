@@ -93,24 +93,24 @@ class AssignTaskForm(forms.Form):
             'class':'form-control',
         }
     ))
-    # assignee = forms.CharField(required=False, widget=forms.TextInput(
-    #     attrs={
-    #         'type':'text',
-    #         'placeholder':'Enter assignee email address here...',
-    #         'class':'form-control',
-    #     }
-    # ))
-    assignee = forms.ChoiceField(required=False)
-
-    def __init__(self, *args, **kwargs):
-
-        #managers = kwargs.pop('managers', None)
-        assignees = kwargs.pop('assignees', None)
-
-        super(AssignTaskForm, self).__init__(*args, **kwargs)
-
-        if assignees:
-            self.fields.get('assignee').choices = assignees
+    assignee = forms.CharField(required=False, widget=forms.TextInput(
+        attrs={
+            'type':'text',
+            'placeholder':'Enter assignee email address here...',
+            'class':'form-control',
+        }
+    ))
+    # assignee = forms.ChoiceField(required=False)
+    #
+    # def __init__(self, *args, **kwargs):
+    #
+    #     #managers = kwargs.pop('managers', None)
+    #     assignees = kwargs.pop('assignees', None)
+    #
+    #     super(AssignTaskForm, self).__init__(*args, **kwargs)
+    #
+    #     if assignees:
+    #         self.fields.get('assignee').choices = assignees
 
 
 class ProjectStatusForm(forms.Form):

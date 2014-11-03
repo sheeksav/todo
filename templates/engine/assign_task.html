@@ -3,41 +3,47 @@
 
 {% block content %}
 
+{% include 'engine/_navigation.html' %}
+
     <div class="container">
 
-        <h3>Assign a To-Do Item</h3>
+        <div class="content-container">
 
-        <form role="form" method="post" action="">
+            <h3>Assign a To-Do Item</h3>
 
-            {% csrf_token %}
+            <form role="form" method="post" action="">
 
-            <div class="form-group">
+                {% csrf_token %}
 
-                <label for="title">Title</label>
-                {{ form.title.errors }}
-                {{ form.title }}
+                <div class="form-group">
 
-                <div>&nbsp;</div>
+                    <label for="title">Title</label>
+                    {{ form.title.errors }}
+                    {{ form.title }}
 
-                <label for="description">Description</label>
-                {{ form.description.errors }}
-                {{ form.description }}
+                    <div>&nbsp;</div>
 
-                <div>&nbsp;</div>
+                    <label for="description">Description</label>
+                    {{ form.description.errors }}
+                    {{ form.description }}
 
-                <label for="assignee">Assign to User</label>
-                {{ form.assignee.errors }}
-                {{ form.assignee }}
+                    <div>&nbsp;</div>
+
+                    <label for="assignee">Assign to User</label>
+                    {{ form.assignee.errors }}
+                    {{ form.assignee }}
 
 
-                <div>&nbsp;</div>
+                    <div>&nbsp;</div>
 
 
-            </div>
+                </div>
 
-            <button type="submit" class="btn btn-block btn-lg btn-primary">Submit</button>
+                <button type="submit" class="btn btn-block btn-lg btn-primary">Submit</button>
 
-        </form>
+            </form>
+
+        </div>
 
     </div>
 

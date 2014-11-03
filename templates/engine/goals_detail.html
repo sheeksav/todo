@@ -16,11 +16,11 @@
                     {% for task in tasks %}
                         <li class="list-group-item"><a href="{% url 'task-detail' task.id %}">{{ task }}</a></li>
                     {% empty %}
-                        <p>You haven't entered any taks for this goal.</p>
+                        <p class="lead">You haven't entered any taks for this goal.</p>
                     {% endfor %}
                     </ul>
 
-                    <a href="" class="btn btn-block btn-lg btn-primary">Add New Task</a>
+                    <a href="{% url 'assign-task' goal.business_unit.id %}" class="btn btn-block btn-lg btn-primary">Add New Task</a>
 
 
 
