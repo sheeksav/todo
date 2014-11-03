@@ -15,13 +15,13 @@
 
 
         {% if assigned_tasks %}
-            <h3 id="pending-tasks">Pending Tasks</h3>
+            <h2 id="pending-tasks">Tasks Assigned to Me</h2>
             <ul class="list-group" id="assigned-tasks">
             {% for task in assigned_tasks %}
                 <li class="list-group-item task clearfix">
                     <!--<span class="pull-left">{{ task }}</span>
                     <button class="btn btn-warning btn-sm accept-btn pull-right" data-task-id="{{ task.id }}">Add!</button>-->
-                    <a href="{% url 'task-detail' task.id %}" class="task-list-btn">{{ task }}</a>
+                    <a href="{% url 'task-detail' task.id %}">{{ task }}</a>
                     <!--<button class="add-to-list-btn"><span class="glyphicon glyphicon-chevron-down"></span></button>-->
                 </li>
             {% endfor %}
@@ -32,13 +32,13 @@
 
 
         {% if tasks %}
-            <h3 id="user-tasks">Your Tasks</h3>
+            <h2 id="user-tasks">Your Tasks</h2>
             <ul class="list-group" id="user-tasks">
             {% for task in tasks %}
                 <li class="list-group-item task clearfix">
                     <!--<span class="pull-left">{{ task }}</span>
                     <button href class="btn btn-primary btn-sm complete-btn pull-right" data-task-id="{{ task.id }}">Done</button>-->
-                    <a href="{% url 'task-detail' task.id %}" class="task-list-btn">{{ task }}</a>
+                    <a href="{% url 'task-detail' task.id %}">{{ task }}</a>
                     <span class="pull-right status-green">&nbsp;</span>
                 </li>
             {% endfor %}
