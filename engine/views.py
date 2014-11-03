@@ -403,35 +403,6 @@ class TaskDetailView(TemplateView):
         return redirect('tasks')
 
 
-def CompleteTaskView(request, pk):
-
-    if pk:
-        t = ToDoItem.objects.get(pk=pk)
-        t.complete = True
-        t.save()
-
-    return redirect('tasks')
-
-
-def AcceptTaskView(request, pk):
-
-    if pk:
-        t = ToDoItem.objects.get(pk=pk)
-        t.from_admin = False
-        t.save()
-
-    return redirect('tasks')
-
-
-def DeleteTaskView(request, pk):
-
-    if pk:
-        t = ToDoItem.objects.get(pk=pk)
-        t.delete()
-
-    return redirect('tasks')
-
-
 class DashboardView(TemplateView):
     template_name = 'engine/dashboard.html'
 
@@ -586,5 +557,46 @@ class GoalsDetailView(TemplateView):
             'tasks': kwargs.get('tasks'),
             'completed_tasks': kwargs.get('completed_tasks'),
         }
+
+
+
+def CompleteTaskView(request, pk):
+
+    if pk:
+        t = ToDoItem.objects.get(pk=pk)
+        t.complete = True
+        t.save()
+
+    return redirect('tasks')
+
+
+def AcceptTaskView(request, pk):
+
+    if pk:
+        t = ToDoItem.objects.get(pk=pk)
+        t.from_admin = False
+        t.save()
+
+    return redirect('tasks')
+
+
+def DeleteTaskView(request, pk):
+
+    if pk:
+        t = ToDoItem.objects.get(pk=pk)
+        t.delete()
+
+    return redirect('tasks')
+
+
+def UpdateTaskStatusView(request, pk, status):
+
+    if pk:
+        t = ToDoItem.objects.get(pk=pk)
+        t.status = status
+        t.save()
+
+
+
 
 

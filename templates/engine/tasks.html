@@ -20,10 +20,10 @@
             {% for task in tasks %}
                 <li class="list-group-item clearfix">
                     <div class="pull-left">
-                        <a href="{% url 'task-detail' task.id %}">{{ task }}</a>
+                        <span class="status-green"></span><a href="{% url 'task-detail' task.id %}">{{ task }}</a>
                     </div>
                     <div class="pull-right">
-                        <em>{{ task.goal.business_unit }} > {{ task.goal }}</em>
+                        <small><em>{{ task.goal.business_unit }} > {{ task.goal }}</em></small>
                     </div>
                 </li>
             {% endfor %}
@@ -35,7 +35,7 @@
             <h3>Completed Tasks</h3>
             <ul>
             {% for task in completed_tasks %}
-                <li><b><del>{{ task }}</del></b>&nbsp;&nbsp;&nbsp;<small>{{ task.goal.business_unit }} > {{ task.goal }}</small></li>
+                <li><b><del>{{ task }}</del></b>&nbsp;&nbsp;&nbsp;<small><em>{{ task.goal.business_unit }} > {{ task.goal }}</em></small></li>
             {% endfor %}
             </ul>
         {% endif %}
