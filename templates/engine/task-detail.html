@@ -9,36 +9,44 @@
 
       <div class="content-container">
 
-        <h1>{{ task }}</h1>
-        <p><b>Created by:</b>&nbsp;{{ creator }}&nbsp;&nbsp;<b>Assigned to:</b>&nbsp;{{ assignee }}&nbsp;&nbsp;<b>Due on:</b></p>
+
+
+        <div class="task-header clearfix">
+            <div class="pull-left">
+                <h1>{{ task }}</h1>
+                <p><b>Created by:</b> {{ creator }} on {{ task.created }}<b></p>
+                <p>Assigned to:</b>&nbsp;{{ task.list.owner.get_full_name }}&nbsp;&nbsp;</p>
+                <p><b>Due on:</b></p>
+            </div>
+
+            <div class="pull-right">
+                <div>&nbsp;</div>
+                <h4>Task Status:</h4>
+                <form role="form" method="post" action="">
+                    {% csrf_token %}
+                    {{ form.status }}
+                    <!--<button type="submit">Update Status</button>-->
+                </form>
+            </div>
+
+        </div>
+
+
+
 
         <hr />
 
-        <h4>Description:</h4>
+        <h4>Comments:</h4>
         <p>{{ description }}</p>
+        <a href="">Add Comment</a>
+        <hr />
 
+        <h4>Resources:</h4>
+
+        <a href="">Add Resource</a>
         <hr />
 
 
-        <h4>Task Status:</h4>
-
-        <!--
-        <a href="" class="btn btn-lg btn-success">I'm in good shape</a>
-        <a href="" class="btn btn-lg btn-warning">I need help</a>
-        <a href="" class="btn btn-lg btn-danger">I'm in trouble</a>
-        -->
-
-        <form role="form" method="post" action="">
-
-            {% csrf_token %}
-
-            {{ form.status }}
-
-            <!--<button type="submit">Update Status</button>-->
-
-        </form>
-
-        <div>&nbsp;</div>
         <div>&nbsp;</div>
 
 
