@@ -87,6 +87,8 @@ TEMPLATE_DIRS = (
 
 
 
+SITE_URL = 'https://accomplishedtodo.herokuapp.com'
+
 
 # Email settings, the backend is kept as default.
 EMAIL_HOST = 'smtp.mandrillapp.com'
