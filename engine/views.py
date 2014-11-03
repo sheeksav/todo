@@ -185,12 +185,39 @@ class AddTaskFormView(FormView):
 class AssignTaskFormView(FormView):
     form_class = AssignTaskForm
     template_name = 'engine/assign_task.html'
-    success_url = '/tasks/'
+    success_url = ''
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
 
+        pk = kwargs.get('pk')
+        kwargs['goal'] = Goal.objects.get(pk=pk)
+
         return super(AssignTaskFormView, self).dispatch(request, *args, **kwargs)
+
+
+    def get(self, *args, **kwargs):
+
+        context = self.get_context_data(**kwargs)
+        context['form'] = self.get_form(form_class=self.get_form_class())
+        context['goal'] = kwargs.get('goal')
+
+        return self.render_to_response(context)
+
+
+    def post(self, request, *args, **kwargs):
+
+        form = self.get_form_class()(request.POST)
+
+        if not form.is_valid():
+            context = self.get_context_data(**kwargs)
+            context['form'] = form
+            context['goal'] = kwargs.get('goal')
+
+            return self.render_to_response(context=context)
+
+        return self.form_valid(form=form)
+
 
     def form_valid(self, form):
 
@@ -209,6 +236,7 @@ class AssignTaskFormView(FormView):
             from_admin = True,
             description = form.cleaned_data.get('description'),
             creator = self.request.user,
+            goal = Goal.objects.get(pk=self.kwargs.get('pk')),
         )
 
         # Send the email
@@ -226,7 +254,23 @@ class AssignTaskFormView(FormView):
         msg.send()
 
 
+        self.success_url = '/dashboard/goals/tasks/%s/' % task.goal.id
+
+
         return super(AssignTaskFormView, self).form_valid(form)
+
+
+    # def form_valid(self, form):
+    #
+    #     goal = Goal.objects.create(
+    #         name=form.cleaned_data.get('name'),
+    #         business_unit = BusinessUnit.objects.get(pk=self.kwargs.get('pk')),
+    #     )
+    #     goal.save()
+    #
+    #     self.success_url = '/dashboard/goals/%s/' % goal.business_unit.id
+    #
+    #     return super(AddGoalView, self).form_valid(form)
 
 
 # class AssignTaskFormView(TemplateView):

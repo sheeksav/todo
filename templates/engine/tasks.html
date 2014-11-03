@@ -22,7 +22,7 @@
                     <!--<span class="pull-left">{{ task }}</span>
                     <button class="btn btn-warning btn-sm accept-btn pull-right" data-task-id="{{ task.id }}">Add!</button>-->
                     <a href="{% url 'task-detail' task.id %}" class="task-list-btn">{{ task }}</a>
-                    <button class="add-to-list-btn"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                    <!--<button class="add-to-list-btn"><span class="glyphicon glyphicon-chevron-down"></span></button>-->
                 </li>
             {% endfor %}
             </ul>

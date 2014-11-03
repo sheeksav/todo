@@ -14,13 +14,15 @@
 
                      <ul class="list-group">
                     {% for task in tasks %}
-                        <li class="list-group-item"><a href="{% url 'task-detail' task.id %}">{{ task }}</a></li>
+                        <li class="list-group-item"><span class="status-green">&nbsp;</span><a href="{% url 'task-detail' task.id %}">{{ task }}</a></li>
                     {% empty %}
                         <p class="lead">You haven't entered any taks for this goal.</p>
                     {% endfor %}
                     </ul>
 
-                    <a href="{% url 'assign-task' goal.business_unit.id %}" class="btn btn-block btn-lg btn-primary">Add New Task</a>
+                    <a href="{% url 'assign-task' goal.id %}" class="btn btn-block btn-lg btn-primary">Add New Task</a>
+                    <div>&nbsp;</div>
+                    <a href="{% url 'goals' goal.business_unit.pk %}">Back to <b>{{ goal.business_unit }}</b> Goals</a>
 
 
 

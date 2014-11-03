@@ -42,19 +42,22 @@
         <div>&nbsp;</div>
 
 
-        {% if task.from_admin and not task.complete %}
+{#        {% if task.from_admin and not task.complete %}#}
+{##}
+{#            <a href="{% url 'accept-task' task.id %}" class="btn btn-block btn-lg btn-warning">Add to My List</a>#}
+{#            <a href="{% url 'delete-task' task.id %}" class="btn btn-block btn-lg btn-danger">Delete</a>#}
+{##}
+{#        {% elif not task.from_admin and not task.complete%}#}
+{##}
+{#            <a href="{% url 'complete-task' task.id %}" class="btn btn-lg btn-primary">Complete Task</a>#}
+{##}
+{#        {% endif %}#}
 
-            <a href="{% url 'accept-task' task.id %}" class="btn btn-block btn-lg btn-warning">Add to My List</a>
-            <a href="{% url 'delete-task' task.id %}" class="btn btn-block btn-lg btn-danger">Delete</a>
 
-        {% elif not task.from_admin and not task.complete%}
-
-            <a href="{% url 'complete-task' task.id %}" class="btn btn-lg btn-primary">Complete Task</a>
-
-        {% endif %}
+        <a href="{% url 'complete-task' task.id %}" class="btn btn-lg btn-block btn-primary">Complete Task</a>
 
         <div>&nbsp;</div>
-        <a href="">Back to Goals</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{% url 'tasks' %}">Back to My Tasks</a>
+        <a href="{% url 'goals-detail' task.goal.pk %}">Back to Goals for <b>{{ task.goal }}</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{% url 'tasks' %}">View My Tasks</a>
 
 
       </div>

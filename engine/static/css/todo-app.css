@@ -86,19 +86,31 @@ ul.errorlist li {
     width: 1em;
     height: 1em;
     border-radius: 50%;
-    background-color: green;
+    background-color: #5cb85c;
+    display: block;
+    float: left;
+    margin-right: 10px;
+    margin-top: 0.2em;
 }
 
 .status-yellow {
     width: 1em;
     height: 1em;
     border-radius: 50%;
-    background-color: yellow;
+    background-color: #f0ad4e;
+    display: block;
+    float: left;
+    margin-right: 10px;
+    margin-top: 0.2em;
 }
 
 .status-red {
     width: 1em;
     height: 1em;
     border-radius: 50%;
-    background-color: red;
+    background-color: #d9534f;
+    display: block;
+    float: left;
+    margin-right: 10px;
+    margin-top: 0.2em;
 }
