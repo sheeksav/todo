@@ -5,9 +5,9 @@ import random
 
 
 PROJECT_STATUS = (
-    ('1', 'I\'m in good shape'),
-    ('2', 'I need help'),
-    ('3', 'I am in trouble'),
+    ('good', 'I\'m in good shape'),
+    ('help', 'I need help'),
+    ('trouble', 'I am in trouble'),
 )
 
 
@@ -74,7 +74,7 @@ class ToDoItem(BaseModel):
     from_admin = models.BooleanField(default=False)
     updated = models.DateTimeField(auto_now_add=True)
     goal = models.ForeignKey(Goal)
-    status = models.CharField(max_length=30, choices=PROJECT_STATUS)
+    status = models.CharField(max_length=30, choices=PROJECT_STATUS, default='good')
 
     def __str__(self):
         return self.title

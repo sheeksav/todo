@@ -20,7 +20,7 @@
             {% for task in tasks %}
                 <li class="list-group-item clearfix">
                     <div class="pull-left">
-                        <span class="status-green"></span><a href="{% url 'task-detail' task.id %}">{{ task }}</a>
+                        <span class="{{ task.status }}">&nbsp;</span><a href="{% url 'task-detail' task.id %}">{{ task }}</a>
                     </div>
                     <div class="pull-right">
                         <small><em>{{ task.goal.business_unit }} > {{ task.goal }}</em></small>
@@ -110,6 +110,8 @@
         $('.accept-btn').click(function() {
             var pk = $(this).data('task-id');
             var url = '/accept-task/' + pk + '/';
+
+
 
             $.ajax({
                 type: 'POST',

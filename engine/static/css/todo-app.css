@@ -16,6 +16,10 @@ button {
     border: 0;
 }
 
+button:focus {
+    outline: 0 !important;
+}
+
 .glyphicon {
     font-size: 1.2em;
 }
@@ -82,7 +86,7 @@ ul.errorlist li {
 /* Project Status Buttons           */
 /* -------------------------------- */
 
-.status-green {
+.good {
     width: 1em;
     height: 1em;
     border-radius: 50%;
@@ -93,7 +97,7 @@ ul.errorlist li {
     margin-top: 0.2em;
 }
 
-.status-yellow {
+.help {
     width: 1em;
     height: 1em;
     border-radius: 50%;
@@ -104,7 +108,7 @@ ul.errorlist li {
     margin-top: 0.2em;
 }
 
-.status-red {
+.trouble {
     width: 1em;
     height: 1em;
     border-radius: 50%;

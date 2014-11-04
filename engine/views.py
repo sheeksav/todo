@@ -618,6 +618,7 @@ class GoalsDetailView(TemplateView):
             'goal': kwargs.get('goal'),
             'tasks': kwargs.get('tasks'),
             'completed_tasks': kwargs.get('completed_tasks'),
+
         }
 
 
@@ -651,12 +652,36 @@ def DeleteTaskView(request, pk):
     return redirect('tasks')
 
 
-def UpdateTaskStatusView(request, pk, status):
+def UpdateTaskGoodView(request, pk):
 
     if pk:
         t = ToDoItem.objects.get(pk=pk)
-        t.status = status
+        t.status = 'good'
         t.save()
+
+    return redirect('tasks')
+
+
+def UpdateTaskHelpView(request, pk):
+
+    if pk:
+        t = ToDoItem.objects.get(pk=pk)
+        t.status = 'help'
+        t.save()
+
+    return redirect('tasks')
+
+
+def UpdateTaskTroubleView(request, pk):
+
+    if pk:
+        t = ToDoItem.objects.get(pk=pk)
+        t.status = 'trouble'
+        t.save()
+
+    return redirect('tasks')
+
+
 
 
 

@@ -12,31 +12,54 @@
 
 
         <div class="task-header clearfix">
-            <div class="pull-left">
+
                 <h1>{{ task }}</h1>
+
+                <!--<h3>Current status: {{ task.status }}</h3>-->
+
+                {% if user == task.list.owner %}
+
+                    <div>&nbsp;</div>
+
+                    <button id="good" {% if task.status == 'good' %}class="btn btn-success"{% else %}class="btn btn-default"{% endif %} data-task-id="{{ task.id }}">I'm Good</button>
+                    <button id="help" {% if task.status == 'help' %}class="btn btn-warning"{% else %}class="btn btn-default"{% endif %} data-task-id="{{ task.id }}">I need help</button>
+                    <button id="trouble" {% if task.status == 'trouble' %}class="btn btn-danger"{% else %}class="btn btn-default"{% endif %} data-task-id="{{ task.id }}">I'm in trouble</button>
+
+                    <div>&nbsp;</div>
+                    <hr />
+
+                {% endif %}
+
+
+
                 <p>
                     <b>Created by:</b> {{ creator }} on {{ task.created }}<b><br />
                     Assigned to:</b>&nbsp;{{ task.list.owner.get_full_name }}<br />
-                    <b>Due on:</b><br />
+                    <b>Due on:</b>
                 </p>
-            </div>
 
-            <div class="pull-right">
-                <div>&nbsp;</div>
-                <h4>Task Status:</h4>
-                <form role="form" method="post" action="">
-                    {% csrf_token %}
-                    {{ form.status }}
-                    <!--<button type="submit">Update Status</button>-->
-                </form>
-            </div>
+
+{#            {% if user == task.list.owner %}#}
+{#            <div class="pull-right">#}
+{#                <div>&nbsp;</div>#}
+{#                <h4>Task Status:</h4>#}
+{#                <form role="form" method="post" action="">#}
+{#                    {% csrf_token %}#}
+{#                    {{ form.status }}#}
+{#                    <!--<button type="submit">Update Status</button>-->#}
+{#                </form>#}
+{#            </div>#}
+{#            {% endif %}#}
 
         </div>
 
-        <hr />
 
         <h4>Description:</h4>
+        {% if description %}
         <p>{{ description }}</p>
+        {% else %}
+        <em>None provided</em>
+        {% endif %}
 
 
         <hr />
@@ -102,12 +125,122 @@
 
 {% block extra_js %}
 
+{#    <script>#}
+{##}
+{#        $( "select#id_status" ).change(function() {#}
+{##}
+{##}
+{##}
+{#            var pk = {{ task.id }};#}
+{#            var status = $(this).val();#}
+{##}
+{#            var url = '/task/update/' + pk + '/' + status + '/';#}
+{##}
+{#            //alert(status);#}
+{#            //alert(url);#}
+{##}
+{##}
+{#            $.ajax({#}
+{#                type: 'POST',#}
+{#                url: url,#}
+{#                dataType: 'json',#}
+{#                async: true,#}
+{#                data: {#}
+{#                    csrfmiddlewaretoken: '{{ csrf_token }}',#}
+{#                    pk: pk,#}
+{#                    status: status,#}
+{#                },#}
+{#                success: function(json) {#}
+{##}
+{#                }#}
+{#            });#}
+{##}
+{##}
+{#        });#}
+{##}
+{#    </script>#}
+
     <script>
 
-        $( "select#id_status" ).change(function() {
+
+        $('button#good').click(function() {
+
+            var pk = $(this).data('task-id');
+            var url = '/update-task-good/' + pk + '/';
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                async: true,
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    pk: pk,
+                },
+                success: function(json) {
+
+                }
+            });
+
+            $('button#good').addClass('btn-success');
+            $('button#help').removeClass('btn-warning').addClass('btn-default');
+            $('button#trouble').removeClass('btn-danger').addClass('btn-default');
+
+        });
 
 
-            alert( "Handler for .change() called." );
+
+        $('button#help').click(function() {
+
+            var pk = $(this).data('task-id');
+            var url = '/update-task-help/' + pk + '/';
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                async: true,
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    pk: pk,
+                },
+                success: function(json) {
+
+                }
+            });
+
+            $('button#good').removeClass('btn-success').addClass('btn-default');
+            $('button#help').addClass('btn-warning');
+            $('button#trouble').removeClass('btn-danger').addClass('btn-default');
+
+        });
+
+
+
+
+        $('button#trouble').click(function() {
+
+            var pk = $(this).data('task-id');
+            var url = '/update-task-trouble/' + pk + '/';
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                async: true,
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    pk: pk,
+                },
+                success: function(json) {
+
+                }
+            });
+
+
+            $('button#good').removeClass('btn-success').addClass('btn-default');
+            $('button#help').removeClass('btn-warning').addClass('btn-default');
+            $('button#trouble').addClass('btn-danger');
 
         });
 

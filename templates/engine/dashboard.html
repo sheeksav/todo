@@ -15,7 +15,14 @@
 
                     <ul class="list-group">
                     {% for unit in biz_units %}
-                        <li class="list-group-item"><a href="{% url 'goals' unit.id %}">{{ unit }}</a></li>
+                        <li class="list-group-item clearfix">
+                            <div class="pull-left">
+                                <a href="{% url 'goals' unit.id %}">{{ unit }}</a>
+                            </div>
+                            <div class="pull-right">
+                                &nbsp;
+                            </div>
+                        </li>
                     {% empty %}
                         <p>You haven't entered any business units.</p>
                     {% endfor %}

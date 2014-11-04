@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from engine.views import HomeView, LoginView, SignUpView, LogoutView, ToDoListDisplayView, CompleteTaskAPIView, \
     AddTaskFormView, AssignTaskFormView, AcceptTaskAPIView, ActivateView, TaskDetailView, CompleteTaskView, \
     AcceptTaskView, DeleteTaskView, DashboardView, GoalsView, GoalsDetailView, AddUnitView, AddGoalView, \
-    UpdateTaskStatusView, AddResourceView, AddCommentView
+    AddResourceView, AddCommentView, UpdateTaskGoodView, UpdateTaskHelpView, UpdateTaskTroubleView
 
 urlpatterns = patterns('',
     # Examples:
@@ -22,6 +22,12 @@ urlpatterns = patterns('',
     # url(r'^complete-task/(?P<pk>\d+)/$', CompleteTaskAPIView.as_view(), name='complete-task-api'),
     # url(r'^accept-task/(?P<pk>\d+)/$', AcceptTaskAPIView.as_view(), name='accept-task-api'),
     url(r'^complete-task/(?P<pk>\d+)/$', CompleteTaskView, name='complete-task'),
+
+
+    url(r'^update-task-good/(?P<pk>\d+)/$', UpdateTaskGoodView, name='update-task-good'),
+    url(r'^update-task-help/(?P<pk>\d+)/$', UpdateTaskHelpView, name='update-task-help'),
+    url(r'^update-task-trouble/(?P<pk>\d+)/$', UpdateTaskTroubleView, name='update-task-trouble'),
+
     url(r'^accept-task/(?P<pk>\d+)/$', AcceptTaskView, name='accept-task'),
     url(r'^delete-task/(?P<pk>\d+)/$', DeleteTaskView, name='delete-task'),
     url(r'^dashboard/$', DashboardView.as_view(), name='dashboard'),
@@ -29,10 +35,8 @@ urlpatterns = patterns('',
     url(r'^dashboard/goals/(?P<pk>\d+)/$', GoalsView.as_view(), name='goals'),
     url(r'^dashboard/goals/add/(?P<pk>\d+)/$', AddGoalView.as_view(), name='goals-add'),
     url(r'^dashboard/goals/tasks/(?P<pk>\d+)/$', GoalsDetailView.as_view(), name='goals-detail'),
-    url(r'^task/update/(?P<pk>\d+)/(?P<status>\d+)/$', UpdateTaskStatusView, name='update-status'),
     url(r'^task/(?P<pk>\d+)/add-resource/$', AddResourceView.as_view(), name='add-resource' ),
     url(r'^task/(?P<pk>\d+)/add-comment/$', AddCommentView.as_view(), name='add-comment' ),
-
 
     url(r'^signup/$', SignUpView.as_view(), name='signup'),
     url(r'^accounts/login/$', LoginView.as_view(), name='login'),

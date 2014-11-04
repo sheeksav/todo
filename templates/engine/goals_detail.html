@@ -16,7 +16,7 @@
                     {% for task in tasks %}
                         <li class="list-group-item clearfix">
                             <div class="pull-left">
-                                <span class="status-green">&nbsp;</span><a href="{% url 'task-detail' task.id %}">{{ task }}</a>
+                                <span class="{{ task.status }}">&nbsp;</span><a href="{% url 'task-detail' task.id %}">{{ task }}</a>
                             </div>
                             <div class="pull-right">
                                 Owner: <b>{{ task.list.owner }}</b>
