@@ -136,3 +136,22 @@ class AddGoalForm(forms.Form):
             'class':'form-control',
         }
     ))
+
+
+class AddResourceForm(forms.Form):
+    name = forms.CharField(required=True, widget=forms.TextInput(
+        attrs={
+            'type':'textarea',
+            'placeholder':'Enter resource name here...',
+            'class':'form-control',
+        }
+    ))
+    link = forms.CharField(required=True, widget=forms.TextInput(
+        attrs={
+            'type':'textarea',
+            'placeholder':'Enter resource link URL here...',
+            'class':'form-control',
+        }
+    ))
+
+

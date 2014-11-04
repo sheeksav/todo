@@ -42,8 +42,15 @@
         <hr />
 
         <h4>Resources:</h4>
+        {% if resources %}
+        <ul>
+        {% for resource in resources %}
+            <li><a href="{{ resource.link }}" target="_blank">{{ resource }}</a></li>
+        {% endfor %}
+        </ul>
+        {% endif %}
 
-        <a href="">Add Resource</a>
+        <a href="{% url 'add-resource' task.id %}">Add Resource</a>
         <hr />
 
 

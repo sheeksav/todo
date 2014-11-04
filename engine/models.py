@@ -79,8 +79,15 @@ class ToDoItem(BaseModel):
     def __str__(self):
         return self.title
 
-3
 
+class Resource(BaseModel):
+    name = models.CharField(max_length=300)
+    link = models.CharField(max_length=300)
+    task = models.ForeignKey(ToDoItem)
+    creator = models.ForeignKey(User)
+
+    def __str__(self):
+        return self.name
 
 
 

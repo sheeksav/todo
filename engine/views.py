@@ -11,9 +11,9 @@ from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 
 
-from .models import UserProfile, ToDoList, ToDoItem, BusinessUnit, Goal
+from .models import UserProfile, ToDoList, ToDoItem, BusinessUnit, Goal, Resource
 from .forms import AddTaskForm, AssignTaskForm, LoginForm, SignUpForm, ActivateForm, ProjectStatusForm, \
-    AddBizUnitForm, AddGoalForm
+    AddBizUnitForm, AddGoalForm, AddResourceForm
 
 
 # Create your views here.
@@ -370,12 +370,14 @@ class TaskDetailView(TemplateView):
 
         task = ToDoItem.objects.get(pk = kwargs.get('pk'))
         creator = task.creator.get_full_name
+        resources = Resource.objects.filter(task__pk=kwargs.get('pk'))
 
         context = {
             'task': task,
             'description': task.description,
             'creator': creator,
             'form': ProjectStatusForm(),
+            'resources': resources,
         }
 
         return context
@@ -420,6 +422,36 @@ class DashboardView(TemplateView):
         }
 
         return context
+
+
+class AddResourceView(FormView):
+    form_class = AddResourceForm
+    template_name = 'engine/add_resource.html'
+    success_url = ''
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+
+        pk = kwargs.get('pk')
+        kwargs['task'] = ToDoItem.objects.get(pk=pk)
+
+        return super(AddResourceView, self).dispatch(request, *args, **kwargs)
+
+
+    def form_valid(self, form):
+
+        resource = Resource.objects.create(
+            name = form.cleaned_data.get('name'),
+            link = form.cleaned_data.get('link'),
+            task = ToDoItem.objects.get(pk=self.kwargs.get('pk')),
+            creator = self.request.user,
+        )
+        resource.save()
+
+
+        self.success_url = '/details/%s/' % resource.task.id
+
+        return super(AddResourceView, self).form_valid(form)
 
 
 class AddUnitView(FormView):
