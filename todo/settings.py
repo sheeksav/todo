@@ -87,7 +87,7 @@ TEMPLATE_DIRS = (
 
 
 
-SITE_URL = '//accomplishedtodo.herokuapp.com'
+SITE_URL = '//heydothis.herokuapp.com'
 
 
 # Email settings, the backend is kept as default.
