@@ -11,9 +11,9 @@ from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 
 
-from .models import UserProfile, ToDoList, ToDoItem, BusinessUnit, Goal, Resource
+from .models import UserProfile, ToDoList, ToDoItem, BusinessUnit, Goal, Resource, Comment
 from .forms import AddTaskForm, AssignTaskForm, LoginForm, SignUpForm, ActivateForm, ProjectStatusForm, \
-    AddBizUnitForm, AddGoalForm, AddResourceForm
+    AddBizUnitForm, AddGoalForm, AddResourceForm, AddCommentForm
 
 
 # Create your views here.
@@ -371,6 +371,7 @@ class TaskDetailView(TemplateView):
         task = ToDoItem.objects.get(pk = kwargs.get('pk'))
         creator = task.creator.get_full_name
         resources = Resource.objects.filter(task__pk=kwargs.get('pk'))
+        comments = Comment.objects.filter(task__pk=kwargs.get('pk'))
 
         context = {
             'task': task,
@@ -378,6 +379,7 @@ class TaskDetailView(TemplateView):
             'creator': creator,
             'form': ProjectStatusForm(),
             'resources': resources,
+            'comments': comments,
         }
 
         return context
@@ -452,6 +454,34 @@ class AddResourceView(FormView):
         self.success_url = '/details/%s/' % resource.task.id
 
         return super(AddResourceView, self).form_valid(form)
+
+
+class AddCommentView(FormView):
+    form_class = AddCommentForm
+    template_name = 'engine/add_comment.html'
+    success_url = ''
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+
+        pk = kwargs.get('pk')
+        kwargs['task'] = ToDoItem.objects.get(pk=pk)
+
+        return super(AddCommentView, self).dispatch(request, *args, **kwargs)
+
+
+    def form_valid(self, form):
+
+        comment = Comment.objects.create(
+            text = form.cleaned_data.get('text'),
+            task = ToDoItem.objects.get(pk=self.kwargs.get('pk')),
+            author = self.request.user,
+        )
+        comment.save()
+
+        self.success_url = '/details/%s/' % comment.task.id
+
+        return super(AddCommentView, self).form_valid(form)
 
 
 class AddUnitView(FormView):

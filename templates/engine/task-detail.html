@@ -14,9 +14,11 @@
         <div class="task-header clearfix">
             <div class="pull-left">
                 <h1>{{ task }}</h1>
-                <p><b>Created by:</b> {{ creator }} on {{ task.created }}<b></p>
-                <p>Assigned to:</b>&nbsp;{{ task.list.owner.get_full_name }}&nbsp;&nbsp;</p>
-                <p><b>Due on:</b></p>
+                <p>
+                    <b>Created by:</b> {{ creator }} on {{ task.created }}<b><br />
+                    Assigned to:</b>&nbsp;{{ task.list.owner.get_full_name }}<br />
+                    <b>Due on:</b><br />
+                </p>
             </div>
 
             <div class="pull-right">
@@ -31,14 +33,24 @@
 
         </div>
 
+        <hr />
 
+        <h4>Description:</h4>
+        <p>{{ description }}</p>
 
 
         <hr />
 
         <h4>Comments:</h4>
-        <p>{{ description }}</p>
-        <a href="">Add Comment</a>
+        {% if comments %}
+        <ul>
+        {% for comment in comments %}
+            <blockquote>{{ comment.text }}<br /><small><b>{{ comment.author.get_full_name }}</b> on {{ comment.created }}</small></blockquote>
+
+        {% endfor %}
+        </ul>
+        {% endif %}
+        <a href="{% url 'add-comment' task.id %}">Add Comment</a>
         <hr />
 
         <h4>Resources:</h4>
@@ -52,9 +64,6 @@
 
         <a href="{% url 'add-resource' task.id %}">Add Resource</a>
         <hr />
-
-
-        <div>&nbsp;</div>
 
 
 {#        {% if task.from_admin and not task.complete %}#}
@@ -80,7 +89,8 @@
         <div>&nbsp;</div>
         <a href="{% url 'goals-detail' task.goal.pk %}">Back to Goals for <b>{{ task.goal }}</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{% url 'tasks' %}">View My Tasks</a>
 
-
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
       </div>
 
     </div><!-- /.container -->

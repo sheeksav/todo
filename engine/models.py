@@ -90,6 +90,17 @@ class Resource(BaseModel):
         return self.name
 
 
+class Comment(BaseModel):
+    text = models.TextField(max_length=1000)
+    author = models.ForeignKey(User)
+    task = models.ForeignKey(ToDoItem)
+
+    def __str__(self):
+        return u'Comment by %s' % self.author
+
+
+
+
 
 
 

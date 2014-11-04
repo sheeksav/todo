@@ -155,3 +155,13 @@ class AddResourceForm(forms.Form):
     ))
 
 
+class AddCommentForm(forms.Form):
+    text = forms.CharField(required=False, widget=forms.Textarea(
+        attrs={
+            'type':'text',
+            'placeholder':'Enter comment here...',
+            'class':'form-control',
+        }
+    ))
+
+

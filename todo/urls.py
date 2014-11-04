@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from engine.views import HomeView, LoginView, SignUpView, LogoutView, ToDoListDisplayView, CompleteTaskAPIView, \
     AddTaskFormView, AssignTaskFormView, AcceptTaskAPIView, ActivateView, TaskDetailView, CompleteTaskView, \
     AcceptTaskView, DeleteTaskView, DashboardView, GoalsView, GoalsDetailView, AddUnitView, AddGoalView, \
-    UpdateTaskStatusView, AddResourceView
+    UpdateTaskStatusView, AddResourceView, AddCommentView
 
 urlpatterns = patterns('',
     # Examples:
@@ -31,6 +31,7 @@ urlpatterns = patterns('',
     url(r'^dashboard/goals/tasks/(?P<pk>\d+)/$', GoalsDetailView.as_view(), name='goals-detail'),
     url(r'^task/update/(?P<pk>\d+)/(?P<status>\d+)/$', UpdateTaskStatusView, name='update-status'),
     url(r'^task/(?P<pk>\d+)/add-resource/$', AddResourceView.as_view(), name='add-resource' ),
+    url(r'^task/(?P<pk>\d+)/add-comment/$', AddCommentView.as_view(), name='add-comment' ),
 
 
     url(r'^signup/$', SignUpView.as_view(), name='signup'),
