@@ -59,7 +59,7 @@ class BusinessUnit(BaseModel):
 class Goal(BaseModel):
     name = models.CharField(max_length=300)
     owner = models.ForeignKey(User, null=True, blank=True)
-    business_unit = models.ForeignKey(BusinessUnit)
+    business_unit = models.ForeignKey(BusinessUnit, related_name='goals')
 
     def __str__(self):
         return self.name
@@ -73,7 +73,7 @@ class ToDoItem(BaseModel):
     complete = models.BooleanField(default=False)
     from_admin = models.BooleanField(default=False)
     updated = models.DateTimeField(auto_now_add=True)
-    goal = models.ForeignKey(Goal)
+    goal = models.ForeignKey(Goal, related_name='tasks')
     status = models.CharField(max_length=30, choices=PROJECT_STATUS, default='good')
 
     def __str__(self):

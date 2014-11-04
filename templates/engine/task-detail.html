@@ -20,11 +20,11 @@
                 {% if user == task.list.owner %}
 
                     <div>&nbsp;</div>
-
-                    <button id="good" {% if task.status == 'good' %}class="btn btn-success"{% else %}class="btn btn-default"{% endif %} data-task-id="{{ task.id }}">I'm Good</button>
-                    <button id="help" {% if task.status == 'help' %}class="btn btn-warning"{% else %}class="btn btn-default"{% endif %} data-task-id="{{ task.id }}">I need help</button>
-                    <button id="trouble" {% if task.status == 'trouble' %}class="btn btn-danger"{% else %}class="btn btn-default"{% endif %} data-task-id="{{ task.id }}">I'm in trouble</button>
-
+                    <div class="btn-group">
+                        <button id="good" {% if task.status == 'good' %}class="btn btn-success"{% else %}class="btn btn-default"{% endif %} data-task-id="{{ task.id }}">I'm Good</button>
+                        <button id="help" {% if task.status == 'help' %}class="btn btn-warning"{% else %}class="btn btn-default"{% endif %} data-task-id="{{ task.id }}">I need help</button>
+                        <button id="trouble" {% if task.status == 'trouble' %}class="btn btn-danger"{% else %}class="btn btn-default"{% endif %} data-task-id="{{ task.id }}">I'm in trouble</button>
+                    </div>
                     <div>&nbsp;</div>
                     <hr />
 

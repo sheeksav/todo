@@ -185,7 +185,7 @@ class AddTaskFormView(FormView):
 class AssignTaskFormView(FormView):
     form_class = AssignTaskForm
     template_name = 'engine/assign_task.html'
-    success_url = ''
+    success_url = '/dashboard/'
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -254,7 +254,7 @@ class AssignTaskFormView(FormView):
         msg.send()
 
 
-        self.success_url = '/dashboard/goals/tasks/%s/' % task.goal.id
+        # self.success_url = '/dashboard/goals/tasks/%s/' % task.goal.id
 
 
         return super(AssignTaskFormView, self).form_valid(form)
@@ -536,7 +536,7 @@ class GoalsView(TemplateView):
 class AddGoalView(FormView):
     template_name = 'engine/add_goal.html'
     form_class = AddGoalForm
-    success_url = ''
+    success_url = '/dashboard/'
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -578,7 +578,7 @@ class AddGoalView(FormView):
         )
         goal.save()
 
-        self.success_url = '/dashboard/goals/%s/' % goal.business_unit.id
+        # self.success_url = '/dashboard/goals/%s/' % goal.business_unit.id
 
         return super(AddGoalView, self).form_valid(form)
 
