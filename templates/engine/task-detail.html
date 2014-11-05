@@ -15,21 +15,22 @@
 
                 <h1>{{ task }}</h1>
 
-                <!--<h3>Current status: {{ task.status }}</h3>-->
-
                 {% if user == task.list.owner %}
 
                     <div>&nbsp;</div>
-                    <div class="btn-group">
+
                         <button id="good" {% if task.status == 'good' %}class="btn btn-success"{% else %}class="btn btn-default"{% endif %} data-task-id="{{ task.id }}">I'm Good</button>
                         <button id="help" {% if task.status == 'help' %}class="btn btn-warning"{% else %}class="btn btn-default"{% endif %} data-task-id="{{ task.id }}">I need help</button>
                         <button id="trouble" {% if task.status == 'trouble' %}class="btn btn-danger"{% else %}class="btn btn-default"{% endif %} data-task-id="{{ task.id }}">I'm in trouble</button>
                     </div>
                     <div>&nbsp;</div>
-                    <hr />
+
 
                 {% endif %}
 
+
+                <a href="{% url 'dashboard' %}">Back to Overview</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{% url 'tasks' %}">View My Tasks</a>
+                <hr />
 
 
                 <p>
@@ -38,18 +39,6 @@
                     <b>Due on:</b>
                 </p>
 
-
-{#            {% if user == task.list.owner %}#}
-{#            <div class="pull-right">#}
-{#                <div>&nbsp;</div>#}
-{#                <h4>Task Status:</h4>#}
-{#                <form role="form" method="post" action="">#}
-{#                    {% csrf_token %}#}
-{#                    {{ form.status }}#}
-{#                    <!--<button type="submit">Update Status</button>-->#}
-{#                </form>#}
-{#            </div>#}
-{#            {% endif %}#}
 
         </div>
 
@@ -89,28 +78,10 @@
         <hr />
 
 
-{#        {% if task.from_admin and not task.complete %}#}
-{##}
-{#            <a href="{% url 'accept-task' task.id %}" class="btn btn-block btn-lg btn-warning">Add to My List</a>#}
-{#            <a href="{% url 'delete-task' task.id %}" class="btn btn-block btn-lg btn-danger">Delete</a>#}
-{##}
-{#        {% elif not task.from_admin and not task.complete%}#}
-{##}
-{#            <a href="{% url 'complete-task' task.id %}" class="btn btn-lg btn-primary">Complete Task</a>#}
-{##}
-{#        {% endif %}#}
-
-
-{#        {{ user }}#}
-{#        {{ task.list.owner }}#}
-
-
         {% if user == task.list.owner %}
         <a href="{% url 'complete-task' task.id %}" class="btn btn-lg btn-primary">Complete Task</a>
         {% endif %}
 
-        <div>&nbsp;</div>
-        <a href="{% url 'goals-detail' task.goal.pk %}">Back to Goals for <b>{{ task.goal }}</b></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{% url 'tasks' %}">View My Tasks</a>
 
         <div>&nbsp;</div>
         <div>&nbsp;</div>

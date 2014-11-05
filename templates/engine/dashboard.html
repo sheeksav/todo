@@ -11,23 +11,6 @@
                 <div class="col-xs-12">
 
                     <h2>Overview</h2>
-                    <p class="lead">Your organization's business units are listed below. Click on a task to view details.</p>
-
-{#                    <ul class="list-group">#}
-{#                    {% for unit in biz_units %}#}
-{#                        <li class="list-group-item clearfix">#}
-{#                            <div class="pull-left">#}
-{#                                <a href="{% url 'goals' unit.id %}">{{ unit }}</a>#}
-{#                            </div>#}
-{#                            <div class="pull-right">#}
-{#                                &nbsp;#}
-{#                            </div>#}
-{#                        </li>#}
-{#                    {% empty %}#}
-{#                        <p>You haven't entered any business units.</p>#}
-{#                    {% endfor %}#}
-{#                    </ul>#}
-
 
 
                     {% for unit in biz_units %}
@@ -46,7 +29,7 @@
                       <!-- List group -->
 
                       {% for goal in unit.goals.all %}
-                        <h4 style="padding: 24px 14px 14px 14px;">{{ goal }}</h4>
+                        <h4 style="padding: 20px 14px 20px 14px;">{{ goal }}</h4>
                           <ul class="list-group">
                           {% for task in goal.tasks.all %}
                               <li class="list-group-item clearfix">

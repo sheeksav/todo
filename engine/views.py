@@ -630,7 +630,7 @@ def CompleteTaskView(request, pk):
         t.complete = True
         t.save()
 
-    return redirect('tasks')
+    return redirect('dashboard')
 
 
 def AcceptTaskView(request, pk):
@@ -649,7 +649,7 @@ def DeleteTaskView(request, pk):
         t = ToDoItem.objects.get(pk=pk)
         t.delete()
 
-    return redirect('tasks')
+    return redirect('dashboard')
 
 
 def UpdateTaskGoodView(request, pk):
@@ -659,7 +659,7 @@ def UpdateTaskGoodView(request, pk):
         t.status = 'good'
         t.save()
 
-    return redirect('tasks')
+    return redirect('dashboard')
 
 
 def UpdateTaskHelpView(request, pk):
@@ -669,7 +669,7 @@ def UpdateTaskHelpView(request, pk):
         t.status = 'help'
         t.save()
 
-    return redirect('tasks')
+    return redirect('dashboard')
 
 
 def UpdateTaskTroubleView(request, pk):
@@ -679,7 +679,7 @@ def UpdateTaskTroubleView(request, pk):
         t.status = 'trouble'
         t.save()
 
-    return redirect('tasks')
+    return redirect('dashboard')
 
 
 
